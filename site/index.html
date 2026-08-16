@@ -374,6 +374,14 @@ const BRAND = {
   // Add codes as stock runs out, e.g. ["CC-CAR-014","CC-BER-002"]
   soldOut:  [],
 
+  // Stock runs 1–3 per plate, so the basket is capped at what is actually on hand.
+  // defaultStock applies to every code not listed in stock below. It is deliberately 1:
+  // guessing high means taking money for a plate you cannot ship, while guessing low
+  // costs at most one marginal sale, and a customer who wants two can ask on WhatsApp.
+  // Raise it, or list the generous codes individually, as stock allows.
+  defaultStock: 1,
+  stock:    {},                       // per-code override, e.g. { "CC-CAR-014": 3 }
+
   // Records every order (reference, contact, address, lines) to Netlify Forms as it is sent,
   // so a card payment can never arrive with nothing on record saying what it was for.
   // Orders land under Forms → orders in the Netlify dashboard. Set false to switch off.
@@ -398,13 +406,21 @@ const esc = s => String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&g
 const zar = n => BRAND.currency + n.toLocaleString("en-ZA");
 
 let view = { key: CATS[0].k, filter:"", shown: PAGE, hideSold:false };
-const isSold = c => BRAND.soldOut.includes(c);
+// How many of a code are on hand. Listing a code in soldOut, or giving it a stock of 0,
+// both mean none — the plate stays visible and becomes a pre-order.
+const onHand = c => BRAND.soldOut.includes(c) ? 0
+  : Math.max(0, Math.floor(Number(BRAND.stock?.[c] ?? BRAND.defaultStock)) || 0);
+const isSold = c => onHand(c) === 0;
+// Basket ceiling. A sold plate is a pre-order, confirmed by hand before anything is
+// charged, so it takes the normal stocking level rather than 0.
+const maxQty = c => isSold(c) ? Math.max(1, Math.floor(Number(BRAND.defaultStock)) || 1) : onHand(c);
+const soldCount = () => ALL.reduce((n,i) => n + (isSold(i.c) ? 1 : 0), 0);
 
 /* ---------- brand ---------- */
 $("#logo").src = LOGO;
 $("#pill").textContent = "Every plate " + zar(BRAND.price);
 $("#sCount").textContent = ALL.length + " designs · " + CATS.length + " categories"
-  + (BRAND.soldOut.length ? " · " + BRAND.soldOut.length + " sold, pre-order open" : "");
+  + (soldCount() ? " · " + soldCount() + " sold, pre-order open" : "");
 $("#sDel").textContent = BRAND.deliveryTime + " · " + zar(BRAND.delivery) + " flat";
 $("#panNote").textContent = BRAND.footnote;
 if(!(BRAND.delivery > 0)) $("#panDelRow").hidden = true;
@@ -530,7 +546,12 @@ $("#grid").addEventListener("focusout", e=>{
 });
 
 function setQty(code, q, fromInput){
-  q = Math.max(0, Math.min(99, Math.floor(q)||0));
+  const want = Math.max(0, Math.floor(q)||0), cap = maxQty(code);
+  q = Math.min(want, cap);
+  // Say why the stepper stopped, otherwise it just looks broken.
+  if(want > cap) toast(isSold(code)
+    ? "Pre-order limited to " + cap + " — message us for more"
+    : "Only " + cap + " in stock — message us on WhatsApp for more");
   q ? cart.set(code,q) : cart.delete(code);
   const card = document.querySelector('.p[data-c="'+code+'"]');
   if(card){

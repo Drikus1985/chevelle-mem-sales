@@ -45,7 +45,24 @@ const salts = await page.evaluate(() => {
 });
 ok('salt varies across orders (>100 distinct in 400)', salts > 100, 'got ' + salts);
 
+console.log('\nStock cap');
+ok('default cap is 1 per plate', await page.evaluate(() => maxQty('CC-CAR-001')) === 1);
+await add('CC-CAR-001', 5);
+ok('basket clamps to what is on hand', await page.evaluate(() => cart.get('CC-CAR-001')) === 1);
+ok('the refusal is explained, not silent',
+  /only 1 in stock/i.test(await page.$eval('#tst', n => n.textContent)));
+await page.evaluate(() => { BRAND.stock = { 'CC-CAR-003': 3 }; });
+await add('CC-CAR-003', 9);
+ok('per-code stock override is honoured', await page.evaluate(() => cart.get('CC-CAR-003')) === 3);
+await page.evaluate(() => { BRAND.stock = { 'CC-CAR-004': 0 }; });
+ok('stock 0 counts as sold out', await page.evaluate(() => isSold('CC-CAR-004')));
+ok('a sold-out plate can still be pre-ordered', await page.evaluate(() => {
+  setQty('CC-CAR-004', 1); return cart.get('CC-CAR-004'); }) === 1);
+await page.evaluate(() => { cart.clear(); BRAND.stock = {}; currentRef = null; sync(); });
+
 console.log('\nTotals (documented behaviour, must not regress)');
+// These assert the money, not the cap, so give the test plates headroom.
+await page.evaluate(() => { BRAND.stock = { 'CC-CAR-001': 9, 'CC-CAR-002': 9 }; });
 await add('CC-CAR-001', 2);
 let t = await T();
 ok('2 in-stock plates = R198 + R99 delivery = R297', t.sub===198 && t.del===99 && t.v===297, JSON.stringify(t));

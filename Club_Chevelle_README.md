@@ -109,7 +109,13 @@ and the trading name it displays, PayShap and bank details, `captureOrders`, the
 
 - **Marking a plate sold:** add its code to `soldOut`, e.g. `soldOut: ["CC-CAR-014"]`. The SOLD
   banner, the pre-order tag, the totals split, the held-shipment note and the WhatsApp message
-  all follow automatically.
+  all follow automatically. Setting a code's `stock` to 0 does exactly the same thing.
+- **Stock levels:** stock runs 1–3 per plate, so the basket is capped at what is on hand.
+  `defaultStock` applies to every code not listed in `stock`, and is **1** — guessing high
+  means taking money for a plate you cannot ship, while guessing low costs at most one
+  marginal sale, and a customer who wants two can ask on WhatsApp. Give the generous codes
+  their own entry: `stock: { "CC-CAR-014": 3 }`. When a customer hits the cap the app says
+  why and points them at WhatsApp, rather than a stepper that silently refuses.
 - **Removing the card button:** clear the `yoco` value and the button, the card row and the card
   note all disappear.
 - **The card note is derived, not hard-coded.** If `yocoName` ever stops matching `BRAND.name`,
@@ -138,11 +144,11 @@ page URL; a delivery address requirement on anything that ships now.
 
 ## Verification
 
-`test/_verify.mjs` — 31 browser checks via Playwright against the shipped `site/`, covering the
+`test/_verify.mjs` — 37 browser checks via Playwright against the shipped `site/`, covering the
 reference format and uniqueness, the totals split, the disabled card button and withheld copy
 link on a pre-order-only basket, R198 + R99 = R297, the Yoco amount and reference matching the
-panel, the held-shipment copy, order capture end to end, the address requirement, and rendering
-with Google Fonts blocked. Run with `npm test`.
+panel, the held-shipment copy, order capture end to end, the stock cap and its per-code
+override, the address requirement, and rendering with Google Fonts blocked. Run with `npm test`.
 
 `test/_catalogue.mjs` — checks the files on disk rather than the running page: every product code
 has a thumbnail and every thumbnail belongs to a code, so a build that drops or duplicates one
@@ -171,9 +177,8 @@ checks no longer depend on anyone remembering to run them.
    6307 4689 771. The published account number carries the usual SA debit-order fraud exposure;
    this neutralises most of it in one phone call. Then decide separately whether the account
    number stays on the public page — PayShap and card already cover most customers.
-6. Confirm typical stock depth per code. The quantity stepper allows 99 and `soldOut` needs a
-   redeploy to take effect. If stock is often 1–3, the cap should drop and `soldOut` should
-   become a per-code quantity map rather than a list.
+6. Fill in `stock` for any plate you hold more than one of. Everything defaults to 1, which is
+   safe but conservative.
 7. Verify the first and last image on each PDF page. The photo mapping is positional, so a page
    with 11 or 13 extractable images would shift everything after it — and the 558/558 count
    check still passes in that case.
