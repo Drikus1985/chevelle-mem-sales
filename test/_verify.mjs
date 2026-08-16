@@ -1,6 +1,6 @@
 /* Verifies the behaviour changed in this branch, plus the documented behaviour it
    must not have broken. Run: node test/_verify.mjs   (serves site/ on :8099) */
-import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
@@ -17,7 +17,7 @@ const srv = createServer(async (rq, rs) => {
 });
 await new Promise(r => srv.listen(8099, r));
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await chromium.launch();
 const page = await browser.newPage();
 // Block Google Fonts: the app must render without it.
 await page.route('**://fonts.*/**', r => r.abort());

@@ -1,7 +1,7 @@
 /* Regenerates Club_Chevelle_README.pdf from docs/readme-print.html.
    Run: node docs/build-pdf.mjs
    Keep docs/readme-print.html in step with Club_Chevelle_README.md when either changes. */
-import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import { chromium } from 'playwright';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 

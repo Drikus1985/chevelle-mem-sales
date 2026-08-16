@@ -168,9 +168,13 @@ the scrim regression, order capture end to end (including the no-duplicate rule 
 the pre-order split, the disabled card button and withheld copy link, Yoco amount and reference
 matching the panel, rendering with Google Fonts blocked). All green.
 
-Run with `node test/_verify.mjs`. This complements `_readme_claims.mjs` and `_chev_regress.mjs`
-rather than replacing them; those two aren't in this repo and should be committed alongside it,
-at which point all three can run in CI on every push.
+`test/_catalogue.mjs` covers what the browser suite can't see, because it is about the files on
+disk rather than the running page: every code has a thumbnail, every thumbnail belongs to a code.
+
+Both run on every push and pull request via `.github/workflows/verify.yml`, so the checks no
+longer depend on anyone remembering to run them. This complements `_readme_claims.mjs` and
+`_chev_regress.mjs` rather than replacing them; those two aren't in this repo and should be
+committed alongside it, at which point the workflow picks them up too.
 
 ---
 

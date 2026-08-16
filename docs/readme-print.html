@@ -188,8 +188,9 @@ ol.todo.hot li::before{background:var(--hot)}
   and uniqueness, the totals split, the disabled card button and withheld copy link on a
   pre-order-only basket, R198 + R99 = R297, the Yoco amount and reference matching the panel, the
   held-shipment copy, order capture end to end, the address requirement, and rendering with
-  Google Fonts blocked. Catalogue integrity verified live: 558 items, 558 unique codes, all 14
-  category counts matching, all 558 thumbnails served.</p>
+  Google Fonts blocked. <code>test/_catalogue.mjs</code> checks the files on disk instead of the
+  running page: every code has a thumbnail and every thumbnail belongs to a code. Both run on
+  every push and pull request, so the checks no longer depend on anyone remembering them.</p>
 
   <h2>To do</h2>
   <div class="stage">Before taking a real order</div>

@@ -142,10 +142,14 @@ page URL; a delivery address requirement on anything that ships now.
 reference format and uniqueness, the totals split, the disabled card button and withheld copy
 link on a pre-order-only basket, R198 + R99 = R297, the Yoco amount and reference matching the
 panel, the held-shipment copy, order capture end to end, the address requirement, and rendering
-with Google Fonts blocked. Run with `node test/_verify.mjs`.
+with Google Fonts blocked. Run with `npm test`.
 
-Catalogue integrity verified against the live site: 558 items, 558 unique codes, all 14 category
-counts matching, and all 558 thumbnails served.
+`test/_catalogue.mjs` — checks the files on disk rather than the running page: every product code
+has a thumbnail and every thumbnail belongs to a code, so a build that drops or duplicates one
+cannot ship a plate with a broken image. Run with `node test/_catalogue.mjs`.
+
+Both run automatically on every push and pull request via `.github/workflows/verify.yml`, so the
+checks no longer depend on anyone remembering to run them.
 
 ---
 
