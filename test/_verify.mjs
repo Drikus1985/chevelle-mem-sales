@@ -87,6 +87,51 @@ dialogs.length = 0;
 await page.click('#bYoco');
 ok('card warns when order not yet sent', dialogs.length===1 && /WhatsApp first/.test(dialogs[0]||''), JSON.stringify(dialogs));
 
+console.log('\nMixed-basket shipping (one fee, held and shipped complete)');
+await page.evaluate(() => { cart.clear(); currentRef = null; orderSent = false; recordedRef = null; });
+await page.evaluate(() => { BRAND.soldOut = ['CC-CAR-002']; });
+await add('CC-CAR-001', 2); await add('CC-CAR-002', 1);
+t = await T();
+ok('mixed basket charges one delivery fee', t.del===99 && t.v===297, JSON.stringify(t));
+ok('panel explains the order is held', await page.$eval('#panShip', n =>
+  !n.hidden && /hold the whole/i.test(n.textContent) && /one R99 delivery/i.test(n.textContent)));
+ok('WhatsApp message states one delivery', /one R99 delivery/i.test(await page.evaluate(()=>orderText())));
+await add('CC-CAR-001', 0);
+ok('pre-order-only shows its own note', await page.$eval('#panShip', n =>
+  !n.hidden && /nothing ships or gets charged yet/i.test(n.textContent)));
+await add('CC-CAR-002', 0);
+ok('note hidden with no pre-orders', await page.$eval('#panShip', n => n.hidden));
+
+console.log('\nOrder capture');
+const posts = [];
+await page.route('**/', route => {
+  const rq = route.request();
+  if (rq.method() === 'POST') { posts.push(rq.postData() || ''); return route.fulfill({ status: 200, body: 'ok' }); }
+  route.continue();
+});
+await page.evaluate(() => { cart.clear(); currentRef = null; orderSent = false; recordedRef = null; BRAND.soldOut = []; });
+await add('CC-CAR-001', 2);
+await page.fill('#cName', 'Test Buyer');
+await page.fill('#cTel', '0821234567');
+await page.fill('#cNote', '12 Test Road, Bedfordview');
+await page.click('#bCopy');
+await page.waitForTimeout(300);
+ok('order posted to the Netlify form', posts.length===1, 'posts=' + posts.length);
+const post = new URLSearchParams(posts[0] || '');
+ok('posts to form-name=orders', post.get('form-name')==='orders');
+ok('carries the reference', post.get('ref')=== await REF());
+ok('carries address and total', post.get('address')==='12 Test Road, Bedfordview' && post.get('total')==='297');
+ok('carries the full order text', /CC-CAR-001/.test(post.get('order')||''));
+ok('records shipping state', post.get('ships')==='ships now', post.get('ships'));
+await page.click('#bCopy');
+await page.waitForTimeout(300);
+ok('same reference is not posted twice', posts.length===1, 'posts=' + posts.length);
+await page.evaluate(() => { BRAND.captureOrders = false; currentRef = null; recordedRef = null; });
+await page.click('#bCopy');
+await page.waitForTimeout(300);
+ok('captureOrders:false switches capture off', posts.length===1, 'posts=' + posts.length);
+await page.evaluate(() => { BRAND.captureOrders = true; });
+
 console.log('\nCatalogue');
 ok('558 plates loaded', await page.evaluate(()=>ALL.length)===558);
 ok('renders without Google Fonts', (await page.$$('.p')).length > 0);

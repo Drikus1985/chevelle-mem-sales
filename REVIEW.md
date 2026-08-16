@@ -50,10 +50,19 @@ README both need updating to `CHEV-YYMMDD-HHMM-XXX`.
 message first, so it was possible to pay and never transmit the order — money in the dashboard
 under a reference that mapped to nothing.
 
-The button now tracks whether the order was actually sent or copied, and warns before opening
-Yoco if it wasn't, quoting the reference. This is a guard, not a cure: the real fix is capturing
-the basket server-side (Netlify Forms is free and needs no backend), which is worth the hour and
-would also give you an order history you currently don't have.
+Fixed twice over. The button now tracks whether the order was sent or copied and warns before
+opening Yoco if it wasn't, quoting the reference. More importantly, **every order is now recorded
+server-side**: `recordOrder()` posts the reference, contact, address, total, shipping state and
+full line items to a Netlify form named `orders`, on all three paths (WhatsApp, copy, card). They
+appear under Forms → orders in the dashboard, so a payment can always be traced to what was
+ordered — and you get an order history you didn't have.
+
+Capture is deliberately fire-and-forget. A customer is never blocked because recording failed,
+and `window.open` stays synchronous inside the click handler so popup blockers don't eat it.
+Re-posting the same reference is skipped, so amending an order doesn't create duplicate rows.
+`BRAND.captureOrders = false` switches it off.
+
+**This needs the Netlify project linked to this repo** — Netlify detects the form at deploy time.
 
 ### 3. Orders could be placed with no delivery address
 
@@ -71,19 +80,21 @@ turned out to be dead weight in any case — the buttons that trigger the guard 
 panel, so it is already open on mobile and always visible on desktop — and was removed. There is
 a regression test for it.
 
+### 5. Mixed baskets shipped twice on one delivery fee
+
+`totals()` computes `del = nStock === 0 ? 0 : fee`, so a mixed basket charged R99 once but would
+have shipped twice — in-stock now, pre-order later — leaving the second courier leg unfunded, with
+nothing in the copy saying which to expect.
+
+Resolved as **hold and ship complete**: the order waits for the pre-order and goes out in one
+shipment, so the single R99 covers it. The totals logic already produced the right number; what
+was missing was saying so. The panel now carries a note explaining the hold and offering to split
+the order on request, the WhatsApp message states it, and the footnote says one fee per order,
+never two. A pre-order-only basket gets its own note instead.
+
 ---
 
 ## Still open
-
-### 5. Mixed baskets have an unfunded second delivery
-
-`totals()` computes `del = nStock === 0 ? 0 : fee`. A pre-order-only basket correctly carries no
-fee, but a **mixed** basket charges R99 once and ships twice — in-stock now, pre-order later. The
-second courier leg is unfunded, and nothing in the customer-facing copy says which to expect.
-
-Two defensible answers, both copy-only: hold the whole order and ship together, or ship in stages
-and quote the second fee on confirmation. Pick one and put it in the footnote and next to the
-pre-order tag. This is undecided rather than wrong, but a customer will hit it.
 
 ### 6. "Locked" is UI-only, not wire-level
 
@@ -151,9 +162,10 @@ makes every past version redeployable.
 
 ## Tests
 
-`test/_verify.mjs` — 18 browser checks via Playwright against `site/`, covering the three fixes,
-the scrim regression, and the documented behaviour they must not break (R198 + R99 = R297, the
-pre-order split, the disabled card button and withheld copy link, Yoco amount and reference
+`test/_verify.mjs` — 31 browser checks via Playwright against `site/`, covering every fix above,
+the scrim regression, order capture end to end (including the no-duplicate rule and the
+`captureOrders` switch), and the documented behaviour none of it may break (R198 + R99 = R297,
+the pre-order split, the disabled card button and withheld copy link, Yoco amount and reference
 matching the panel, rendering with Google Fonts blocked). All green.
 
 Run with `node test/_verify.mjs`. This complements `_readme_claims.mjs` and `_chev_regress.mjs`
@@ -168,14 +180,16 @@ at which point all three can run in CI on every push.
 |---|---|---|---|
 | 1 | Register ShapID against 064 943 7890 | phone call | **yes** |
 | 2 | Live R1 card test; confirm amount *and* reference land | 10 min | **yes** |
-| 3 | Update README + `_readme_claims.mjs` for the new reference format | 10 min | **yes** |
-| 4 | Capture the basket server-side (finding 2, proper fix) | ~1 hour | strongly advised |
+| 3 | Update `_readme_claims.mjs` for the new reference format | 10 min | **yes** |
+| 4 | Link Netlify to this repo — order capture and headers go live | ~30 min | **yes** |
 | 5 | Debit-order block on the FNB account (finding 8) | phone call | no, but do it now |
-| 6 | Decide mixed-basket delivery, write the copy (finding 5) | copy only | no |
-| 7 | Confirm stock depth; adjust cap if shallow (finding 7) | depends | no |
-| 8 | Link Netlify to this repo | ~30 min | no |
-| 9 | Page-boundary image verification (finding 9) | ~1 hour | no |
-| 10 | Full end-to-end test order | 20 min | final gate |
+| 6 | Confirm stock depth; adjust cap if shallow (finding 7) | depends | no |
+| 7 | Page-boundary image verification (finding 9) | ~1 hour | no |
+| 8 | Full end-to-end test order | 20 min | final gate |
 
-Items 1–3 close before the site takes a real order. Still open beyond this list, unchanged: a
-real domain and a courier agreement.
+Items 1–4 close before the site takes a real order — note 4 has moved up, because order capture
+does nothing until Netlify deploys from this repo. `Club_Chevelle_README.md` and
+`Club_Chevelle_README.pdf` are current as of this branch; regenerate the PDF with
+`node docs/build-pdf.mjs` after editing `docs/readme-print.html`.
+
+Still open beyond this list, unchanged: a real domain and a courier agreement.
