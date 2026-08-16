@@ -111,11 +111,10 @@ and the trading name it displays, PayShap and bank details, `captureOrders`, the
   banner, the pre-order tag, the totals split, the held-shipment note and the WhatsApp message
   all follow automatically. Setting a code's `stock` to 0 does exactly the same thing.
 - **Stock levels:** stock runs 1–3 per plate, so the basket is capped at what is on hand.
-  `defaultStock` applies to every code not listed in `stock`, and is **1** — guessing high
-  means taking money for a plate you cannot ship, while guessing low costs at most one
-  marginal sale, and a customer who wants two can ask on WhatsApp. Give the generous codes
-  their own entry: `stock: { "CC-CAR-014": 3 }`. When a customer hits the cap the app says
-  why and points them at WhatsApp, rather than a stepper that silently refuses.
+  `defaultStock` applies to every code not listed in `stock`, and is **3** — the top of that
+  range. Any plate you hold fewer of therefore needs its own entry, `stock: { "CC-CAR-014": 1 }`,
+  or the app will accept an order for three when you can ship one. When a customer hits the cap
+  the app says why and points them at WhatsApp, rather than a stepper that silently refuses.
 - **Removing the card button:** clear the `yoco` value and the button, the card row and the card
   note all disappear.
 - **The card note is derived, not hard-coded.** If `yocoName` ever stops matching `BRAND.name`,
@@ -177,8 +176,8 @@ checks no longer depend on anyone remembering to run them.
    6307 4689 771. The published account number carries the usual SA debit-order fraud exposure;
    this neutralises most of it in one phone call. Then decide separately whether the account
    number stays on the public page — PayShap and card already cover most customers.
-6. Fill in `stock` for any plate you hold more than one of. Everything defaults to 1, which is
-   safe but conservative.
+6. Fill in `stock` for any plate you hold fewer than three of. Everything defaults to 3, so a
+   thin design will otherwise accept an order you cannot ship.
 7. Verify the first and last image on each PDF page. The photo mapping is positional, so a page
    with 11 or 13 extractable images would shift everything after it — and the 558/558 count
    check still passes in that case.

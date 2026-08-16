@@ -99,11 +99,13 @@ any code, so the app would happily take money for twenty of a plate with one in 
 
 `BRAND` now carries `defaultStock` and a per-code `stock` map alongside `soldOut`. The basket is
 capped at what is on hand, `stock: 0` and `soldOut` mean the same thing, and a sold plate is still
-pre-orderable. `defaultStock` is **1** deliberately: guessing high means taking money for a plate
-you cannot ship, while guessing low costs at most one marginal sale on decorative one-offs that
-customers rarely buy in pairs — and the customer is told why and pointed at WhatsApp rather than
-meeting a stepper that silently refuses. Raise it, or list generous codes individually, as stock
-allows.
+pre-orderable. A customer who hits the cap is told why and pointed at WhatsApp, rather than
+meeting a stepper that silently refuses.
+
+`defaultStock` is **3**, set by Drikus — the top of the observed range. That trades safety for
+reach: it never turns away a sale on a well-stocked design, but a plate held 1 or 2 deep will
+accept an order for three until it is listed in `stock`. **Filling in the thin codes is what
+makes this safe**, and is the remaining work on this finding.
 
 `soldOut` still needs a redeploy to take effect, which is inherent to a static site. Linking
 Netlify to this repo makes that a `git push` rather than a re-zip.
