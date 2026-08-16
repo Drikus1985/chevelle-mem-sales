@@ -1,0 +1,44 @@
+# Netlify config for git-based deploys.
+#
+# Not yet active: it takes effect once site/ (index.html + img/) is committed to this
+# repo and the Netlify project is linked to it via
+#   Site configuration -> Build & deploy -> Link repository
+# Until then the site continues to deploy by zip drag-and-drop and this file is inert.
+#
+# See REVIEW.md, finding 8, for why the move is worth making.
+
+[build]
+  # Static site: nothing to build, just publish the directory.
+  publish = "site"
+  command = ""
+
+# Security headers. These cannot easily be set on a drag-and-drop deploy, which is part
+# of the argument for moving to git-based deploys.
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    # The page displays banking details, so it must not be framable by a lookalike site.
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # 'unsafe-inline' is required because the app ships as a single index.html with the
+    # styles and script inline. It still blocks injection of *external* script sources.
+    # Google Fonts is allowed; the app is tested to render with it blocked.
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+
+# Thumbnails are content-addressed by product code and never change in place,
+# so they can be cached hard.
+[[headers]]
+  for = "/img/*"
+
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# index.html carries prices, the soldOut list and bank details: never serve it stale.
+[[headers]]
+  for = "/index.html"
+
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
