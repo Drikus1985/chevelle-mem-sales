@@ -174,9 +174,9 @@ ol.todo.hot li::before{background:var(--hot)}
         <code>stock</code> to 0 does the same thing.</li>
     <li><b>Stock levels</b> — the basket is capped at what is on hand.
         <code>defaultStock</code> covers every code not listed in <code>stock</code> and is
-        <b>1</b>: guessing high means taking money for a plate you cannot ship, guessing low
-        costs one marginal sale. Give generous codes an entry —
-        <code>stock: { "CC-CAR-014": 3 }</code>. Hitting the cap tells the customer why.</li>
+        <b>3</b>, the top of the range, so any plate you hold fewer of needs its own entry —
+        <code>stock: { "CC-CAR-014": 1 }</code> — or the app accepts an order for three when
+        you can ship one. Hitting the cap tells the customer why.</li>
     <li><b>Removing the card button</b> — clear <code>yoco</code> and the button, the card row and
         the card note all disappear.</li>
     <li><b>The card note is derived, not hard-coded</b> — if <code>yocoName</code> stops matching
@@ -215,8 +215,8 @@ ol.todo.hot li::before{background:var(--hot)}
         6307 4689 771. The published account number carries the usual SA debit-order fraud
         exposure; this neutralises most of it in one call. Then decide separately whether the
         number stays on the public page — PayShap and card already cover most customers.</li>
-    <li><b>Fill in <code>stock</code></b> for any plate you hold more than one of. Everything
-        defaults to 1, which is safe but conservative.</li>
+    <li><b>Fill in <code>stock</code></b> for any plate you hold fewer than three of, or a thin
+        design will accept an order you cannot ship.</li>
     <li><b>Verify the first and last image on each PDF page.</b> The photo mapping is positional, so
         a page with 11 or 13 extractable images would shift everything after it — and the 558/558
         count check still passes in that case.</li>
