@@ -1,8 +1,10 @@
 name: Verify
 
 on:
+  # Branch pushes are covered by pull_request; limiting push to main stops every PR
+  # commit from running the job twice.
   push:
-    branches: ["**"]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
