@@ -5,7 +5,7 @@
 :root{ --ink:#0b0b0c; --ink2:#4a5058; --ink3:#7d848d; --line:#dfe2e7;
        --hot:#c8102e; --gold:#a8781f; --soft:#f6f7f8; }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font:8.9pt/1.31 "DejaVu Sans",Arial,Helvetica,sans-serif;color:var(--ink2);
+body{font:8.9pt/1.295 "DejaVu Sans",Arial,Helvetica,sans-serif;color:var(--ink2);
      -webkit-print-color-adjust:exact;print-color-adjust:exact}
 .page{page-break-after:always}
 .page:last-child{page-break-after:auto}
@@ -148,29 +148,35 @@ ol.todo.hot li::before{background:var(--hot)}
   <p>Format <span class="kv">CHEV-YYMMDD-HHMM-XXX</span> — date, time to the minute, then three
   random characters, e.g. <span class="kv">CHEV-260816-1302-W7W</span>.</p>
   <p>The three characters exist because the reference is the only thing tying a payment back to an
-  order: without them, two customers checking out in the same minute would share one and their
-  payments could not be told apart. The alphabet omits B/8, I/1, O/0, S/5 and Z/2, so a reference
-  read over the phone or typed into banking cannot come back as a different one.</p>
+  order: without them, two customers checking out in the same minute would share one. The alphabet
+  omits B/8, I/1, O/0, S/5 and Z/2, so a reference read over the phone or typed into banking
+  cannot come back as a different one.</p>
 
   <h2>Order capture</h2>
   <p>Every order is posted to the Netlify form <code>orders</code> as it is sent — reference,
   name, contact, address, total, shipping state and the full line items. They appear under
   <b>Forms → orders</b> in the Netlify dashboard, so a card payment can never arrive with nothing
   on record saying what it was for. Capture is fire-and-forget: if it fails the customer is never
-  blocked, and the WhatsApp message still carries everything. Re-sending the same reference does
-  not create a duplicate row.</p>
+  blocked, and the WhatsApp message still carries everything. The same reference is never posted
+  twice.</p>
   <p><b>Requires the Netlify project to be linked to the repository</b> — Netlify detects the form
   at deploy time. Set <code>captureOrders: false</code> to switch it off.</p>
 
   <h2>Maintaining it</h2>
   <p>Everything editable sits in the <code>BRAND</code> object at the top of the script in
   <code>site/index.html</code>: name, legal entity, WhatsApp, price, delivery fee and time, the
-  Yoco URL and the trading name it displays, PayShap and bank details,
-  <code>captureOrders</code>, the footnote, and <code>soldOut</code>.</p>
+  Yoco URL and trading name, PayShap and bank details, <code>captureOrders</code>,
+  <code>defaultStock</code>, <code>stock</code>, the footnote, and <code>soldOut</code>.</p>
   <ul>
     <li><b>Marking a plate sold</b> — add its code to <code>soldOut</code>, e.g.
         <code>soldOut: ["CC-CAR-014"]</code>. The SOLD banner, pre-order tag, totals split,
-        held-shipment note and WhatsApp message all follow automatically.</li>
+        held-shipment note and WhatsApp message all follow automatically. Setting a code's
+        <code>stock</code> to 0 does the same thing.</li>
+    <li><b>Stock levels</b> — the basket is capped at what is on hand.
+        <code>defaultStock</code> covers every code not listed in <code>stock</code> and is
+        <b>1</b>: guessing high means taking money for a plate you cannot ship, guessing low
+        costs one marginal sale. Give generous codes an entry —
+        <code>stock: { "CC-CAR-014": 3 }</code>. Hitting the cap tells the customer why.</li>
     <li><b>Removing the card button</b> — clear <code>yoco</code> and the button, the card row and
         the card note all disappear.</li>
     <li><b>The card note is derived, not hard-coded</b> — if <code>yocoName</code> stops matching
@@ -184,10 +190,10 @@ ol.todo.hot li::before{background:var(--hot)}
   </ul>
 
   <h2>Verification</h2>
-  <p><code>test/_verify.mjs</code> — 31 browser checks against the shipped site: reference format
+  <p><code>test/_verify.mjs</code> — 37 browser checks against the shipped site: reference format
   and uniqueness, the totals split, the disabled card button and withheld copy link on a
   pre-order-only basket, R198 + R99 = R297, the Yoco amount and reference matching the panel, the
-  held-shipment copy, order capture end to end, the address requirement, and rendering with
+  held-shipment copy, order capture end to end, the stock cap, the address requirement, and with
   Google Fonts blocked. <code>test/_catalogue.mjs</code> checks the files on disk instead of the
   running page: every code has a thumbnail and every thumbnail belongs to a code. Both run on
   every push and pull request, so the checks no longer depend on anyone remembering them.</p>
@@ -209,9 +215,8 @@ ol.todo.hot li::before{background:var(--hot)}
         6307 4689 771. The published account number carries the usual SA debit-order fraud
         exposure; this neutralises most of it in one call. Then decide separately whether the
         number stays on the public page — PayShap and card already cover most customers.</li>
-    <li><b>Confirm typical stock depth per code.</b> The stepper allows 99 and <code>soldOut</code>
-        needs a redeploy. If stock is often 1–3, the cap should drop and <code>soldOut</code>
-        should become a per-code quantity map rather than a list.</li>
+    <li><b>Fill in <code>stock</code></b> for any plate you hold more than one of. Everything
+        defaults to 1, which is safe but conservative.</li>
     <li><b>Verify the first and last image on each PDF page.</b> The photo mapping is positional, so
         a page with 11 or 13 extractable images would shift everything after it — and the 558/558
         count check still passes in that case.</li>

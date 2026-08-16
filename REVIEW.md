@@ -18,7 +18,7 @@ The R99 flat delivery fee is **settled** (Drikus, 9 Aug 2026) and is not reopene
 | ~9.6 KB per thumb, 5.2 MB total | measured all 558 files | **5.24 MB, 9.6 KB average** |
 | Card disclaimer removed | `yocoName` === `BRAND.name`, so the branch is dormant | **confirmed, and correctly derived** |
 | Renders with Google Fonts blocked | browser test with `fonts.*` aborted | **confirmed** |
-| Quantity normalisation | `Math.max(0,Math.min(99,Math.floor(q)||0))` | **confirmed** |
+| Quantity normalisation | `Math.floor` then clamp | **confirmed** (ceiling now per-code stock, finding 6) |
 | Pre-order totals split | browser test, mixed and pre-order-only baskets | **confirmed** |
 
 The build-time integrity claims hold. One cosmetic note: `Ford Genuine Parts V8` appears twice
@@ -92,11 +92,27 @@ was missing was saying so. The panel now carries a note explaining the hold and 
 the order on request, the WhatsApp message states it, and the footnote says one fee per order,
 never two. A pre-order-only basket gets its own note instead.
 
+### 6. The stepper allowed 99 of a plate stocked 1–3 — resolved
+
+Answered by Drikus on 16 Aug 2026: **stock is usually 1–3 per plate.** The stepper allowed 99 of
+any code, so the app would happily take money for twenty of a plate with one in the box.
+
+`BRAND` now carries `defaultStock` and a per-code `stock` map alongside `soldOut`. The basket is
+capped at what is on hand, `stock: 0` and `soldOut` mean the same thing, and a sold plate is still
+pre-orderable. `defaultStock` is **1** deliberately: guessing high means taking money for a plate
+you cannot ship, while guessing low costs at most one marginal sale on decorative one-offs that
+customers rarely buy in pairs — and the customer is told why and pointed at WhatsApp rather than
+meeting a stepper that silently refuses. Raise it, or list generous codes individually, as stock
+allows.
+
+`soldOut` still needs a redeploy to take effect, which is inherent to a static site. Linking
+Netlify to this repo makes that a `git push` rather than a re-zip.
+
 ---
 
 ## Still open
 
-### 6. "Locked" is UI-only, not wire-level
+### 7. "Locked" is UI-only, not wire-level
 
 `yocoURL()` builds `?amount=<total>&reference=<ref>`. Yoco renders both as locked text, but they
 are query parameters: a customer can edit `amount` in the address bar and pay R1 with a perfectly
@@ -105,16 +121,6 @@ Worth stating in the README, because "the reference always matches" reads as "no
 
 The locked-rendering behaviour is also observed, not contracted. If Yoco changes it, the failure
 is silent — customers land on the R0.00 page. Make the live card test recurring, not a one-off.
-
-### 7. `soldOut` needs a redeploy, and the stepper allows 99
-
-`soldOut` is `[]` on the live site, so nothing is currently marked sold. Marking a plate sold
-means editing `BRAND`, re-zipping and redeploying; until then it stays purchasable. The stepper
-permits 99 of any code.
-
-Both are fine if stock is deep. **If it is often 1–3, the cap should drop and `soldOut` should
-become a per-code quantity map rather than an array** — otherwise you will take money for plates
-you cannot ship. Needs Drikus's answer on typical stock depth.
 
 ### 8. Publishing the bank account number — concrete mitigation
 
@@ -162,9 +168,10 @@ makes every past version redeployable.
 
 ## Tests
 
-`test/_verify.mjs` — 31 browser checks via Playwright against `site/`, covering every fix above,
+`test/_verify.mjs` — 37 browser checks via Playwright against `site/`, covering every fix above,
 the scrim regression, order capture end to end (including the no-duplicate rule and the
-`captureOrders` switch), and the documented behaviour none of it may break (R198 + R99 = R297,
+`captureOrders` switch), the stock cap and its per-code override, and the documented behaviour
+none of it may break (R198 + R99 = R297,
 the pre-order split, the disabled card button and withheld copy link, Yoco amount and reference
 matching the panel, rendering with Google Fonts blocked). All green.
 
@@ -187,7 +194,7 @@ committed alongside it, at which point the workflow picks them up too.
 | 3 | Update `_readme_claims.mjs` for the new reference format | 10 min | **yes** |
 | 4 | Link Netlify to this repo — order capture and headers go live | ~30 min | **yes** |
 | 5 | Debit-order block on the FNB account (finding 8) | phone call | no, but do it now |
-| 6 | Confirm stock depth; adjust cap if shallow (finding 7) | depends | no |
+| 6 | Fill in `stock` for plates you hold more than one of | minutes | no |
 | 7 | Page-boundary image verification (finding 9) | ~1 hour | no |
 | 8 | Full end-to-end test order | 20 min | final gate |
 
