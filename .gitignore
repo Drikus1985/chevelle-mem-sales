@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+.netlify/
+
+# Build/deploy artefacts — site/ is the source of truth once committed,
+# so the zip should be generated from it rather than versioned alongside it.
+*.zip

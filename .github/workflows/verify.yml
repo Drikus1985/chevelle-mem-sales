@@ -1,0 +1,37 @@
+name: Verify
+
+on:
+  # Branch pushes are covered by pull_request; limiting push to main stops every PR
+  # commit from running the job twice.
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Browser checks + catalogue integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Chromium only: the app is checked in one engine, which keeps the job short.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Cheap and file-based, so run it first — it fails fast if a code lost its image.
+      - name: Check catalogue integrity
+        run: node test/_catalogue.mjs
+
+      - name: Run verification suite
+        run: npm test

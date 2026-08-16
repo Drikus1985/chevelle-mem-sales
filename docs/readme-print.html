@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<style>
+@page { size: A4; margin: 12mm 14mm; }
+:root{ --ink:#0b0b0c; --ink2:#4a5058; --ink3:#7d848d; --line:#dfe2e7;
+       --hot:#c8102e; --gold:#a8781f; --soft:#f6f7f8; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:8.9pt/1.31 "DejaVu Sans",Arial,Helvetica,sans-serif;color:var(--ink2);
+     -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{page-break-after:always}
+.page:last-child{page-break-after:auto}
+
+.mast{border-bottom:3px solid var(--ink);padding-bottom:6px;margin-bottom:9px;
+      display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+.mast h1{font-size:19.5pt;font-weight:800;letter-spacing:.055em;text-transform:uppercase;
+         color:var(--ink);line-height:1}
+.mast .sub{font-size:7.6pt;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);
+           font-weight:700;text-align:right;line-height:1.6}
+.mast .sub b{color:var(--hot);display:block}
+
+h2{font-size:9.8pt;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--ink);
+   margin:7px 0 4px;padding-bottom:2.5px;border-bottom:1px solid var(--line)}
+h2:first-of-type{margin-top:0}
+h3{font-size:8.6pt;font-weight:800;letter-spacing:.05em;color:var(--ink);margin:7px 0 3px}
+p{margin:0 0 4px}
+b,strong{color:var(--ink)}
+ul{margin:0 0 4px 13px}
+li{margin-bottom:2px}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}
+table{width:100%;border-collapse:collapse;margin:0 0 6px}
+td,th{padding:1.9px 5px;border-bottom:1px solid var(--line);font-size:8.5pt;text-align:left}
+th{color:var(--ink);font-size:7.4pt;letter-spacing:.09em;text-transform:uppercase;font-weight:800}
+td.n{text-align:right;font-weight:700;color:var(--ink);white-space:nowrap}
+
+.rule{background:var(--soft);border-left:3px solid var(--hot);padding:5px 8px;margin:0 0 5px}
+.warn{background:#fdf6e8;border-left:3px solid var(--gold);padding:5px 8px;margin:0 0 5px}
+.kv{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:8.4pt;color:var(--ink);font-weight:700}
+code{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:8.2pt;
+     background:var(--soft);padding:.5px 3px;border-radius:2px;color:var(--ink)}
+
+ol.todo{margin:0 0 0 0;counter-reset:t;list-style:none}
+ol.todo li{counter-increment:t;position:relative;padding-left:19px;margin-bottom:3px}
+ol.todo li::before{content:counter(t);position:absolute;left:0;top:.5px;width:13.5px;height:13.5px;
+  background:var(--ink);color:#fff;font-size:7pt;font-weight:800;text-align:center;line-height:13.5px;border-radius:2px}
+ol.todo.hot li::before{background:var(--hot)}
+.stage{font-size:7.4pt;letter-spacing:.13em;text-transform:uppercase;font-weight:800;
+       color:var(--hot);margin:6px 0 3px}
+.stage.g{color:var(--gold)}
+.stage.k{color:var(--ink3)}
+.foot{margin-top:7px;padding-top:4px;border-top:1px solid var(--line);
+      font-size:7.4pt;color:var(--ink3);display:flex;justify-content:space-between}
+</style></head><body>
+
+<!-- ══════════════ PAGE 1 ══════════════ -->
+<div class="page">
+  <div class="mast">
+    <h1>Club Chevelle</h1>
+    <div class="sub">Metal Plate Catalogue &amp; Order App<b>club-chevelle.netlify.app</b></div>
+  </div>
+
+  <p>558 vintage metal wall plates, every one <b>R99</b>, built from the 53-page PDF catalogue.
+  Source lives in the <code>chevelle-mem-sales</code> repository under <code>site/</code> —
+  <code>index.html</code> plus <code>img/</code>, 559 files.</p>
+
+  <h2>The catalogue</h2>
+  <p>All 558 codes and names were parsed from the PDF and checked against the contents page, with
+  no missing items across the 14 categories. The 558 embedded photos were extracted, mapped to
+  codes by page and reading order (12 per page, 1:1), spot-checked against the printed names, and
+  compressed to 300px WebP thumbnails at 9.6&nbsp;KB each — 5.24&nbsp;MB total. Only 60 render at
+  a time, so the page opens on about 576&nbsp;KB rather than the full 5.24&nbsp;MB.</p>
+
+  <div class="cols">
+    <table>
+      <tr><th>Category</th><th style="text-align:right">Plates</th></tr>
+      <tr><td>Beer &amp; Cider</td><td class="n">115</td></tr>
+      <tr><td>Cars &amp; Classics</td><td class="n">105</td></tr>
+      <tr><td>Petrol &amp; Motor Oil</td><td class="n">98</td></tr>
+      <tr><td>Spirits &amp; Cocktails</td><td class="n">60</td></tr>
+      <tr><td>Garage &amp; Tyres</td><td class="n">45</td></tr>
+      <tr><td>Motorcycles</td><td class="n">27</td></tr>
+      <tr><td>Parking &amp; Warning</td><td class="n">23</td></tr>
+    </table>
+    <table>
+      <tr><th>Category</th><th style="text-align:right">Plates</th></tr>
+      <tr><td>Trucks &amp; Tractors</td><td class="n">22</td></tr>
+      <tr><td>Route 66 &amp; Road</td><td class="n">17</td></tr>
+      <tr><td>Music &amp; Bands</td><td class="n">13</td></tr>
+      <tr><td>Pin-Up &amp; Humour</td><td class="n">12</td></tr>
+      <tr><td>Kitchen &amp; Recipes</td><td class="n">11</td></tr>
+      <tr><td>Coca-Cola &amp; Soft Drinks</td><td class="n">6</td></tr>
+      <tr><td>Lifestyle &amp; Americana</td><td class="n">4</td></tr>
+    </table>
+  </div>
+
+  <h2>Commercial rules</h2>
+  <div class="rule">
+    <b>Every plate R99, flat. Delivery R99 flat per order, anywhere in South Africa</b>
+    (confirmed 9 August 2026). Delivery 3–5 working days.
+    <b>One delivery fee per order, never two.</b>
+  </div>
+  <p>Sold plates stay visible under a semi-transparent SOLD banner and can still be added as
+  pre-orders. Pre-order lines are priced but excluded from the payable total and listed
+  separately in the WhatsApp message. A basket mixing in-stock and pre-order plates is
+  <b>held and shipped complete</b> once the pre-order lands, so the single R99 covers it — the
+  panel and the WhatsApp message both say so, and offer to split the order on request. A
+  pre-order-only basket carries no delivery fee, because nothing ships.</p>
+  <p style="color:var(--ink3);font-size:8.4pt"><i>Noted and overruled by decision: R99 courier on
+  a R99 plate is a 100% uplift on a single-item order. If basket size becomes the problem, free
+  delivery above a threshold lifts average order value without cutting the fee. The flat R99
+  stands unless revisited.</i></p>
+
+  <h2>Contact and payment</h2>
+  <table>
+    <tr><td style="width:26%">WhatsApp</td><td class="kv">064 943 7890 &nbsp;·&nbsp; 27649437890</td></tr>
+    <tr><td>PayShap</td><td class="kv">064 943 7890</td></tr>
+    <tr><td>Bank</td><td class="kv">FNB — Gold Business Account</td></tr>
+    <tr><td>Account</td><td class="kv">6307 4689 771</td></tr>
+    <tr><td>Branch</td><td class="kv">252155 (Bedford Gardens)</td></tr>
+    <tr><td>Account holder</td><td class="kv">Get Buzzed (Pty) Ltd t/a Club Chevelle</td></tr>
+    <tr><td>Card</td><td class="kv">pay.yoco.com/get-buzzed</td></tr>
+  </table>
+  <p>Card is live — Yoco has no prohibited-goods issue with metal signs. The page displays Club
+  Chevelle with the Chevelle logo, so the earlier GET BUZZED mismatch is resolved and the in-app
+  disclaimer is gone. The app appends <code>?amount=&amp;reference=</code>, which Yoco renders as
+  locked text, so the card reference always equals the order reference. The same pre-filled link
+  goes into the WhatsApp message and sits behind Copy on the Card row. A pre-order-only basket
+  disables the card button and withholds the link.</p>
+  <div class="warn">
+    <b>The bare page URL is useless</b> — on its own it opens at R0.00 with the payment sections
+    collapsed. Never send it to a customer; every path the app offers builds the full link.<br>
+    <b>Check the amount, not just the reference.</b> The amount is locked in Yoco's interface but
+    travels as a URL parameter, so a customer could edit it and pay less with a valid reference.
+    Confirm the amount received before dispatch.
+  </div>
+
+  <div class="foot"><span>Get Buzzed (Pty) Ltd t/a Club Chevelle</span><span>Page 1 of 2</span></div>
+</div>
+
+<!-- ══════════════ PAGE 2 ══════════════ -->
+<div class="page">
+  <div class="mast">
+    <h1>Club Chevelle</h1>
+    <div class="sub">Running It &amp; To-Do List<b>club-chevelle.netlify.app</b></div>
+  </div>
+
+  <h2>Order references</h2>
+  <p>Format <span class="kv">CHEV-YYMMDD-HHMM-XXX</span> — date, time to the minute, then three
+  random characters, e.g. <span class="kv">CHEV-260816-1302-W7W</span>.</p>
+  <p>The three characters exist because the reference is the only thing tying a payment back to an
+  order: without them, two customers checking out in the same minute would share one and their
+  payments could not be told apart. The alphabet omits B/8, I/1, O/0, S/5 and Z/2, so a reference
+  read over the phone or typed into banking cannot come back as a different one.</p>
+
+  <h2>Order capture</h2>
+  <p>Every order is posted to the Netlify form <code>orders</code> as it is sent — reference,
+  name, contact, address, total, shipping state and the full line items. They appear under
+  <b>Forms → orders</b> in the Netlify dashboard, so a card payment can never arrive with nothing
+  on record saying what it was for. Capture is fire-and-forget: if it fails the customer is never
+  blocked, and the WhatsApp message still carries everything. Re-sending the same reference does
+  not create a duplicate row.</p>
+  <p><b>Requires the Netlify project to be linked to the repository</b> — Netlify detects the form
+  at deploy time. Set <code>captureOrders: false</code> to switch it off.</p>
+
+  <h2>Maintaining it</h2>
+  <p>Everything editable sits in the <code>BRAND</code> object at the top of the script in
+  <code>site/index.html</code>: name, legal entity, WhatsApp, price, delivery fee and time, the
+  Yoco URL and the trading name it displays, PayShap and bank details,
+  <code>captureOrders</code>, the footnote, and <code>soldOut</code>.</p>
+  <ul>
+    <li><b>Marking a plate sold</b> — add its code to <code>soldOut</code>, e.g.
+        <code>soldOut: ["CC-CAR-014"]</code>. The SOLD banner, pre-order tag, totals split,
+        held-shipment note and WhatsApp message all follow automatically.</li>
+    <li><b>Removing the card button</b> — clear <code>yoco</code> and the button, the card row and
+        the card note all disappear.</li>
+    <li><b>The card note is derived, not hard-coded</b> — if <code>yocoName</code> stops matching
+        <code>BRAND.name</code>, the app reinstates the "the page shows X, which is us" disclaimer
+        by itself, so a rename cannot leave stale reassurance on the page.</li>
+    <li><b>Republishing</b> — commit to the repository and Netlify redeploys. URL unchanged.
+        <code>netlify.toml</code> sets <code>X-Frame-Options: DENY</code> (this page shows banking
+        details, so it must not be framable by a lookalike site), a CSP,
+        <code>Referrer-Policy</code>, immutable caching for <code>img/</code>, and no-store for
+        <code>index.html</code>.</li>
+  </ul>
+
+  <h2>Verification</h2>
+  <p><code>test/_verify.mjs</code> — 31 browser checks against the shipped site: reference format
+  and uniqueness, the totals split, the disabled card button and withheld copy link on a
+  pre-order-only basket, R198 + R99 = R297, the Yoco amount and reference matching the panel, the
+  held-shipment copy, order capture end to end, the address requirement, and rendering with
+  Google Fonts blocked. <code>test/_catalogue.mjs</code> checks the files on disk instead of the
+  running page: every code has a thumbnail and every thumbnail belongs to a code. Both run on
+  every push and pull request, so the checks no longer depend on anyone remembering them.</p>
+
+  <h2>To do</h2>
+  <div class="stage">Before taking a real order</div>
+  <ol class="todo hot">
+    <li><b>Register the ShapID</b> against 064 943 7890 in FNB banking, and send an R1 PayShap to
+        confirm it lands. PayShap to that number fails until this is done.</li>
+    <li><b>Run one live R1 card payment.</b> Confirm both the amount and the reference reach the
+        Yoco dashboard, and time the payout to FNB.</li>
+    <li><b>Link the Netlify project to the repository</b> so order capture goes live and the
+        security headers take effect.</li>
+    <li><b>Place a full test order end to end.</b></li>
+  </ol>
+  <div class="stage g">Soon</div>
+  <ol class="todo" style="counter-reset:t 4">
+    <li><b>Call FNB and place a debit-order block</b> / DebiCheck-only instruction on account
+        6307 4689 771. The published account number carries the usual SA debit-order fraud
+        exposure; this neutralises most of it in one call. Then decide separately whether the
+        number stays on the public page — PayShap and card already cover most customers.</li>
+    <li><b>Confirm typical stock depth per code.</b> The stepper allows 99 and <code>soldOut</code>
+        needs a redeploy. If stock is often 1–3, the cap should drop and <code>soldOut</code>
+        should become a per-code quantity map rather than a list.</li>
+    <li><b>Verify the first and last image on each PDF page.</b> The photo mapping is positional, so
+        a page with 11 or 13 extractable images would shift everything after it — and the 558/558
+        count check still passes in that case.</li>
+  </ol>
+  <div class="stage k">Then</div>
+  <ol class="todo" style="counter-reset:t 7">
+    <li>A real domain, a courier agreement, and an offsite copy — the last of which the
+        repository now provides.</li>
+  </ol>
+
+  <div class="foot"><span>Get Buzzed (Pty) Ltd t/a Club Chevelle</span><span>Page 2 of 2</span></div>
+</div>
+</body></html>

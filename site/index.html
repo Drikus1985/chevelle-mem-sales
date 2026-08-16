@@ -204,6 +204,8 @@ button,input{font:inherit;color:inherit}
 .cp.done{background:var(--ok);color:#fff;border-color:var(--ok)}
 .payfoot{font-size:11px;color:var(--ink3);line-height:1.5;margin-top:9px}
 .note{font-size:11px;color:var(--ink3);padding:0 15px 15px;line-height:1.5}
+.shipnote{margin:0 15px 12px;padding:9px 11px;border-left:3px solid var(--gold);background:rgba(217,164,65,.1);
+  font-size:11.5px;line-height:1.5;color:var(--ink2)}
 
 /* mobile bar */
 .mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);
@@ -285,6 +287,7 @@ button,input{font:inherit;color:inherit}
       <div class="sr" id="panPreRow" hidden><span style="color:var(--gold)">Pre-order</span><span id="panPre" style="color:var(--gold)">—</span></div>
     </div>
     <div class="tot"><small>Total</small><b id="panTotal">R0</b></div>
+    <p class="shipnote" id="panShip" hidden></p>
     <div class="fld">
       <input id="cName" placeholder="Your name" autocomplete="name">
       <input id="cTel" placeholder="Contact number" autocomplete="tel" inputmode="tel">
@@ -314,6 +317,20 @@ button,input{font:inherit;color:inherit}
     <p class="note" id="panNote"></p>
   </aside>
 </main>
+
+<!-- Netlify parses this at deploy time to create the "orders" form. It is never shown or
+     submitted directly; recordOrder() posts to it. Orders appear under Forms in the Netlify
+     dashboard, so a payment can always be traced back to what was actually ordered. -->
+<form name="orders" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field">
+  <input type="text" name="ref">
+  <input type="text" name="name">
+  <input type="text" name="tel">
+  <input type="text" name="total">
+  <input type="text" name="ships">
+  <textarea name="address"></textarea>
+  <textarea name="order"></textarea>
+</form>
 
 <div class="scrim" id="scrim"></div>
 <div class="mbar" id="mbar">
@@ -357,7 +374,12 @@ const BRAND = {
   // Add codes as stock runs out, e.g. ["CC-CAR-014","CC-BER-002"]
   soldOut:  [],
 
-  footnote: "Every plate is R99. A flat R99 courier fee applies per order, anywhere in South Africa. Plates marked SOLD can still be added as a pre-order — you are not charged for those until they are back in stock and you confirm. Sending an order does not charge you."
+  // Records every order (reference, contact, address, lines) to Netlify Forms as it is sent,
+  // so a card payment can never arrive with nothing on record saying what it was for.
+  // Orders land under Forms → orders in the Netlify dashboard. Set false to switch off.
+  captureOrders: true,
+
+  footnote: "Every plate is R99. A flat R99 courier fee applies per order, anywhere in South Africa — one fee per order, never two. Plates marked SOLD can still be added as a pre-order — you are not charged for those until they are back in stock and you confirm. Sending an order does not charge you."
 };
 /* ══════════════════════════════════════════════════════════════ */
 
@@ -566,11 +588,19 @@ function totals(){
   return {n, nStock, nPre, sub, pre, del, v: sub + del};
 }
 let currentRef = null;
+// Reference alphabet with no B/8, I/1, O/0, S/5 or Z/2, so a reference read over the
+// phone or typed into banking can't come back as a different one.
+const REF_CHARS = "ACDEFGHJKLMNPQRTUVWXY34789";
 function ref(){
   if(!currentRef){
     const d = new Date(), p = x => String(x).padStart(2,"0");
+    // The reference is the only thing tying a payment back to an order, so two customers
+    // checking out in the same minute must never share one. Minute + 3 chars = 17576
+    // distinct references per minute.
+    let salt = "";
+    for(let i=0;i<3;i++) salt += REF_CHARS[Math.floor(Math.random()*REF_CHARS.length)];
     currentRef = "CHEV-" + String(d.getFullYear()).slice(2) + p(d.getMonth()+1) + p(d.getDate())
-               + "-" + p(d.getHours()) + p(d.getMinutes());
+               + "-" + p(d.getHours()) + p(d.getMinutes()) + "-" + salt;
   }
   return currentRef;
 }
@@ -596,6 +626,14 @@ function sync(){
   $("#panDel").textContent   = nStock ? zar(del) : "—";
   $("#panPreRow").hidden     = nPre === 0;
   $("#panPre").textContent   = zar(pre) + " — quoted later";
+  // One delivery fee per order, never two: a mixed basket is held and shipped complete.
+  $("#panShip").hidden       = nPre === 0;
+  $("#panShip").textContent  = nStock
+    ? "Your order has " + nPre + " pre-order " + (nPre===1?"plate":"plates") + ". We hold the whole "
+      + "order and ship it complete once " + (nPre===1?"it arrives":"they arrive") + ", so you pay "
+      + "one " + zar(BRAND.delivery) + " delivery, not two. Need the in-stock plates sooner? "
+      + "Say so on WhatsApp and we'll split it."
+    : "Pre-order only — nothing ships or gets charged yet. We confirm price and delivery when stock lands.";
   $("#panTotal").textContent = zar(v);
   $("#mCount").textContent   = n + (n===1?" plate":" plates");
   $("#mTotal").textContent   = zar(v);
@@ -633,6 +671,8 @@ function orderText(){
   }
   if(nPre) t += "\nPre-order: " + nPre + (nPre===1?" plate":" plates") + " (" + zar(pre)
               + ") — please confirm when back in stock.\n";
+  if(nPre && nStock) t += "Hold the whole order and ship it complete when the pre-order lands — "
+                        + "one " + zar(del) + " delivery.\n";
   if(note) t += "\nDeliver to: " + note + "\n";
   if(nStock){
     t += "\nPay by PayShap to " + BRAND.payShap + ", reference " + ref() + ".";
@@ -664,19 +704,75 @@ document.querySelectorAll(".cp").forEach(btn=>{
     setTimeout(()=>{ btn.classList.remove("done"); btn.textContent="Copy"; }, 1600);
   };
 });
+// Set once the order itself has actually been sent or copied, so we can tell a card
+// payment that has an order behind it from one that doesn't.
+let orderSent = false;
+
+/* ---------- order capture ----------
+   Posts the basket to the Netlify "orders" form so every reference has its contents on
+   record. Deliberately fire-and-forget: a customer must never be blocked from ordering
+   because capture failed, and window.open has to stay synchronous inside the click
+   handler or the popup blocker eats it. Re-posting the same reference is skipped so an
+   amended order doesn't create a duplicate row. */
+let recordedRef = null;
+function recordOrder(){
+  if(!BRAND.captureOrders || recordedRef === ref()) return;
+  const {v, nStock, nPre} = totals();
+  const stamp = ref();
+  const body = new URLSearchParams({
+    "form-name": "orders", "bot-field": "",
+    ref:     stamp,
+    name:    $("#cName").value.trim(),
+    tel:     $("#cTel").value.trim(),
+    address: $("#cNote").value.trim(),
+    total:   String(v),
+    ships:   nPre ? (nStock ? "held — ships together when pre-order lands" : "pre-order only")
+                  : "ships now",
+    order:   orderText()
+  });
+  fetch("/", { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body })
+    .then(r => { if(r.ok) recordedRef = stamp; })
+    .catch(()=>{});   // offline, or not running on Netlify — the WhatsApp message still carries everything
+}
+
+// Anything shipping now needs somewhere to ship to. A pre-order-only basket doesn't,
+// because the address is taken again when stock lands.
+function haveAddress(){
+  const {nStock} = totals();
+  if(!nStock || $("#cNote").value.trim()) return true;
+  // No openPan() here: the buttons that call this live inside the panel, so it is
+  // already open on mobile and always visible on desktop.
+  $("#cNote").focus();
+  toast("Add a delivery address first");
+  return false;
+}
+
 $("#bYoco").onclick = ()=>{
   const {v} = totals();
   if(!(v > 0)){ toast("Pre-orders are not charged yet"); return; }
+  // A card payment carries only the reference. If the order was never sent, the money
+  // arrives with nothing on record saying which plates it was for.
+  if(!orderSent && !confirm(
+      "Send your order on WhatsApp first, so we know which plates to pack.\n\n"
+    + "Your reference is " + ref() + ".\n\nPay now anyway?")) return;
   window.open(yocoURL(), "_blank");
+  recordOrder();   // pay-first is now recoverable: the basket is on record either way
 };
 $("#bWa").onclick = ()=>{
+  if(!haveAddress()) return;
   const num = BRAND.whatsapp.replace(/\D/g,"");
   window.open("https://wa.me/" + (num.length>=8?num:"") + "?text=" + encodeURIComponent(orderText()), "_blank");
+  orderSent = true;
+  recordOrder();
 };
-$("#bCopy").onclick = ()=> copyText(orderText(), "Order copied");
+$("#bCopy").onclick = ()=>{
+  if(!haveAddress()) return;
+  copyText(orderText(), "Order copied"); orderSent = true;
+  recordOrder();
+};
 $("#bClr").onclick = ()=>{
   if(!cart.size) return;
-  cart.clear(); currentRef = null;
+  cart.clear(); currentRef = null; orderSent = false; recordedRef = null;
   document.querySelectorAll(".p.on").forEach(c=>{
     c.classList.remove("on");
     const i=c.querySelector(".stp input"); if(i) i.value=0;

@@ -1,0 +1,199 @@
+# Club Chevelle — Review, 16 August 2026
+
+Reviewed against the live shipped code, fetched from `https://club-chevelle.netlify.app`
+(`index.html`, 715 lines, 81 KB) and all 558 thumbnails. The site is now committed to this
+repo under `site/`, so it is under version control for the first time.
+
+The R99 flat delivery fee is **settled** (Drikus, 9 Aug 2026) and is not reopened here.
+
+---
+
+## Verified against the live site
+
+| Claim | Method | Result |
+|---|---|---|
+| 558 products, no duplicates | parsed `CATS` from shipped HTML | **558 items, 558 unique codes** |
+| 14 categories, stated counts | compared each against the brief | **all 14 match exactly** |
+| 558 thumbnails, none missing | HTTP request for every `img/<code>.webp` | **558/558 served** |
+| ~9.6 KB per thumb, 5.2 MB total | measured all 558 files | **5.24 MB, 9.6 KB average** |
+| Card disclaimer removed | `yocoName` === `BRAND.name`, so the branch is dormant | **confirmed, and correctly derived** |
+| Renders with Google Fonts blocked | browser test with `fonts.*` aborted | **confirmed** |
+| Quantity normalisation | `Math.max(0,Math.min(99,Math.floor(q)||0))` | **confirmed** |
+| Pre-order totals split | browser test, mixed and pre-order-only baskets | **confirmed** |
+
+The build-time integrity claims hold. One cosmetic note: `Ford Genuine Parts V8` appears twice
+under different codes. Two plates can legitimately share a printed name, so this is worth a
+glance rather than a fix.
+
+---
+
+## Fixed on this branch
+
+### 1. Order reference collided at minute resolution — was blocking
+
+`ref()` produced `CHEV-YYMMDD-HHMM` with no per-order entropy, so two customers checking out in
+the same clock minute received **the same reference**. That matters more here than in a normal
+shop: the reference is the sole reconciliation key, it is baked into the Yoco link, and there is
+no server-side order record to fall back on. A collision meant two card payments carrying one
+reference against two different baskets.
+
+Now `CHEV-YYMMDD-HHMM-XXX`, with three characters drawn from an alphabet that omits B/8, I/1,
+O/0, S/5 and Z/2 — 17,576 references per minute, and no character pair that can be misread when
+someone reads the reference over the phone or types it into banking.
+
+**This changes the documented format**, so `_readme_claims.mjs`'s reference assertion and the
+README both need updating to `CHEV-YYMMDD-HHMM-XXX`.
+
+### 2. A card payment could arrive with no order attached — was blocking
+
+`#bYoco` opened the Yoco link directly. Nothing required the customer to have sent the WhatsApp
+message first, so it was possible to pay and never transmit the order — money in the dashboard
+under a reference that mapped to nothing.
+
+Fixed twice over. The button now tracks whether the order was sent or copied and warns before
+opening Yoco if it wasn't, quoting the reference. More importantly, **every order is now recorded
+server-side**: `recordOrder()` posts the reference, contact, address, total, shipping state and
+full line items to a Netlify form named `orders`, on all three paths (WhatsApp, copy, card). They
+appear under Forms → orders in the dashboard, so a payment can always be traced to what was
+ordered — and you get an order history you didn't have.
+
+Capture is deliberately fire-and-forget. A customer is never blocked because recording failed,
+and `window.open` stays synchronous inside the click handler so popup blockers don't eat it.
+Re-posting the same reference is skipped, so amending an order doesn't create duplicate rows.
+`BRAND.captureOrders = false` switches it off.
+
+**This needs the Netlify project linked to this repo** — Netlify detects the form at deploy time.
+
+### 3. Orders could be placed with no delivery address
+
+`#cNote` was an optional field, and `orderText()` emitted `Deliver to:` only `if(note)`. A
+customer could send a complete, payable order with nowhere to ship it. Sending now requires an
+address whenever something ships immediately; a pre-order-only basket still doesn't ask, because
+the address is taken again when stock lands.
+
+### 4. Scrim regression, caught before it shipped
+
+The first version of the address guard called `openPan()`. `.pan` only gets
+`position:fixed; z-index:50` inside `@media(max-width:960px)`; above that it is a static sidebar,
+so on desktop the call dropped a full-screen `z-index:45` scrim over the entire page. The call
+turned out to be dead weight in any case — the buttons that trigger the guard live inside the
+panel, so it is already open on mobile and always visible on desktop — and was removed. There is
+a regression test for it.
+
+### 5. Mixed baskets shipped twice on one delivery fee
+
+`totals()` computes `del = nStock === 0 ? 0 : fee`, so a mixed basket charged R99 once but would
+have shipped twice — in-stock now, pre-order later — leaving the second courier leg unfunded, with
+nothing in the copy saying which to expect.
+
+Resolved as **hold and ship complete**: the order waits for the pre-order and goes out in one
+shipment, so the single R99 covers it. The totals logic already produced the right number; what
+was missing was saying so. The panel now carries a note explaining the hold and offering to split
+the order on request, the WhatsApp message states it, and the footnote says one fee per order,
+never two. A pre-order-only basket gets its own note instead.
+
+---
+
+## Still open
+
+### 6. "Locked" is UI-only, not wire-level
+
+`yocoURL()` builds `?amount=<total>&reference=<ref>`. Yoco renders both as locked text, but they
+are query parameters: a customer can edit `amount` in the address bar and pay R1 with a perfectly
+valid reference. Reconciliation must check **amount as well as reference** before dispatch.
+Worth stating in the README, because "the reference always matches" reads as "nothing to check".
+
+The locked-rendering behaviour is also observed, not contracted. If Yoco changes it, the failure
+is silent — customers land on the R0.00 page. Make the live card test recurring, not a one-off.
+
+### 7. `soldOut` needs a redeploy, and the stepper allows 99
+
+`soldOut` is `[]` on the live site, so nothing is currently marked sold. Marking a plate sold
+means editing `BRAND`, re-zipping and redeploying; until then it stays purchasable. The stepper
+permits 99 of any code.
+
+Both are fine if stock is deep. **If it is often 1–3, the cap should drop and `soldOut` should
+become a per-code quantity map rather than an array** — otherwise you will take money for plates
+you cannot ship. Needs Drikus's answer on typical stock depth.
+
+### 8. Publishing the bank account number — concrete mitigation
+
+The exposure was flagged without a remedy. The practical one: call FNB and place a **debit order
+block / DebiCheck-only instruction** on account 6307 4689 771, so no unauthenticated debit can be
+collected. One phone call, and it neutralises most of the risk of publishing the number.
+
+PayShap plus the card button already covers most customers; the EFT block is the only piece
+creating exposure, and it could be supplied on request over WhatsApp instead. **Block the debits
+either way**, then decide on visibility separately.
+
+### 9. Image mapping is positional and only spot-verified
+
+558 photos mapped by page and reading order. Counts match exactly, which is real evidence, but a
+single page with 11 or 13 extractable images shifts every subsequent plate by one — and
+558-codes/558-images still passes in that case. Cost of being wrong is a customer receiving a
+different plate from the one pictured.
+
+Cheapest meaningful hardening: verify the **first and last image on every page**, where an
+off-by-one inside a page's reading order must surface.
+
+---
+
+## Deploy pipeline
+
+Live response headers confirm what a drag-and-drop deploy sends:
+
+```
+strict-transport-security: max-age=31536000; includeSubDomains; preload   <- present (Netlify default)
+x-frame-options            <- absent
+content-security-policy    <- absent
+referrer-policy            <- absent
+```
+
+`X-Frame-Options` matters on a page that displays banking details, since without it the page can
+be framed by a lookalike site. `netlify.toml` in this repo sets all three, plus immutable caching
+for `img/` and no-store for `index.html`.
+
+It takes effect once the Netlify project is linked to this repo (**Site configuration → Build &
+deploy → Link repository**, publish directory `site`). That also retires the offsite-copy to-do,
+replaces re-zip-and-drag with `git push`, stops the Private→Public flip after every drop, and
+makes every past version redeployable.
+
+---
+
+## Tests
+
+`test/_verify.mjs` — 31 browser checks via Playwright against `site/`, covering every fix above,
+the scrim regression, order capture end to end (including the no-duplicate rule and the
+`captureOrders` switch), and the documented behaviour none of it may break (R198 + R99 = R297,
+the pre-order split, the disabled card button and withheld copy link, Yoco amount and reference
+matching the panel, rendering with Google Fonts blocked). All green.
+
+`test/_catalogue.mjs` covers what the browser suite can't see, because it is about the files on
+disk rather than the running page: every code has a thumbnail, every thumbnail belongs to a code.
+
+Both run on every push and pull request via `.github/workflows/verify.yml`, so the checks no
+longer depend on anyone remembering to run them. This complements `_readme_claims.mjs` and
+`_chev_regress.mjs` rather than replacing them; those two aren't in this repo and should be
+committed alongside it, at which point the workflow picks them up too.
+
+---
+
+## Suggested order of work
+
+| # | Action | Cost | Blocking a real order? |
+|---|---|---|---|
+| 1 | Register ShapID against 064 943 7890 | phone call | **yes** |
+| 2 | Live R1 card test; confirm amount *and* reference land | 10 min | **yes** |
+| 3 | Update `_readme_claims.mjs` for the new reference format | 10 min | **yes** |
+| 4 | Link Netlify to this repo — order capture and headers go live | ~30 min | **yes** |
+| 5 | Debit-order block on the FNB account (finding 8) | phone call | no, but do it now |
+| 6 | Confirm stock depth; adjust cap if shallow (finding 7) | depends | no |
+| 7 | Page-boundary image verification (finding 9) | ~1 hour | no |
+| 8 | Full end-to-end test order | 20 min | final gate |
+
+Items 1–4 close before the site takes a real order — note 4 has moved up, because order capture
+does nothing until Netlify deploys from this repo. `Club_Chevelle_README.md` and
+`Club_Chevelle_README.pdf` are current as of this branch; regenerate the PDF with
+`node docs/build-pdf.mjs` after editing `docs/readme-print.html`.
+
+Still open beyond this list, unchanged: a real domain and a courier agreement.
