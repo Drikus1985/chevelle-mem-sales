@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Club Chevelle — Metal Plate Catalogue</title>
+<meta name="description" content="558 vintage metal plates. Every plate R99. Browse cars, petrol signs, beer, Route 66 and more, then send your order on WhatsApp.">
+<meta name="theme-color" content="#0b0b0c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Club Chevelle — Metal Plate Catalogue">
+<meta property="og:description" content="558 vintage metal plates, every one R99. Build your order and send it in one tap.">
+<meta property="og:site_name" content="Club Chevelle">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0b0c'/%3E%3Cpath d='M5 19c2-5 5-7 11-7s9 2 11 7' stroke='%23d8dde3' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='10.5' cy='21' r='2.6' fill='%23d8dde3'/%3E%3Ccircle cx='21.5' cy='21' r='2.6' fill='%23d8dde3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700&family=Barlow+Condensed:ital,wght@0,600;0,700;1,700;1,800&display=swap');
+:root{
+  --ink:#0b0b0c; --ink2:#5d636c; --ink3:#949aa3;
+  --line:#e3e5e9; --line2:#eef0f3; --bg:#f3f4f6; --card:#fff; --soft:#f8f9fa;
+  --chrome:#c9ced6; --chrome-d:#8d949e;
+  --hot:#c8102e; --hot-d:#a00d25; --hot-l:#fdf2f4;
+  --gold:#d9a441;
+  --ok:#1a7f4b;
+  --sh:0 1px 2px rgba(11,11,12,.05),0 12px 28px -18px rgba(11,11,12,.25);
+  --cond:'Barlow Condensed','Arial Narrow',Impact,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{font:15px/1.5 'Barlow',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+.pr,.tot b,.ln .v,.mbar .s b,.stp input,.payv{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--hot);outline-offset:2px;border-radius:3px}
+
+/* masthead */
+.mast{background:#0e0e10;border-bottom:3px solid var(--chrome)}
+.mast .in{max-width:1280px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.mast img{height:66px;width:auto;display:block;border-radius:3px}
+.mast .tag{color:#8d949e;font-size:10.5px;font-weight:600;letter-spacing:.19em;text-transform:uppercase}
+.mast .pill{margin-left:auto;background:var(--hot);color:#fff;font-family:var(--cond);font-size:15px;
+  font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:7px 15px;border-radius:3px;white-space:nowrap}
+
+/* strip */
+.strip{background:#17171a;color:#b9bec6;font-size:12px}
+.strip .in{max-width:1280px;margin:0 auto;padding:9px 20px;display:flex;gap:20px;flex-wrap:wrap}
+.strip b{color:var(--chrome);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:10.5px}
+.strip span{display:flex;gap:7px;align-items:baseline}
+
+/* toolbar */
+.bar{position:sticky;top:0;z-index:30;background:rgba(243,244,246,.93);
+  backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.bar .in{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;gap:10px;align-items:center}
+.srch{position:relative;flex:1;max-width:330px}
+.srch input{width:100%;padding:9px 32px 9px 34px;border:1px solid var(--line);border-radius:5px;background:var(--card)}
+.srch input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(200,16,46,.12)}
+.srch svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink3)}
+.srch .clr{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:0;background:none;
+  cursor:pointer;color:var(--ink3);font-size:17px;padding:2px 6px;display:none;line-height:1}
+.srch.has .clr{display:block}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;color:var(--ink2);padding:7px 11px;border-radius:4px;font-size:11.5px;
+  font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:.13s}
+.tabs button:hover{background:var(--card);color:var(--ink)}
+.tabs button.on{background:var(--ink);color:#fff}
+.tabs button i{font-style:normal;opacity:.55;margin-left:5px;font-size:10px}
+
+/* layout */
+.page{max-width:1280px;margin:0 auto;padding:20px 20px 44px;
+  display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;align-items:start}
+
+/* product grid */
+.cathead{display:flex;align-items:baseline;gap:10px;padding:0 2px 12px}
+.cathead h2{font-family:var(--cond);font-size:23px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.cathead span{font-size:11.5px;font-weight:600;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:13px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  box-shadow:var(--sh);display:flex;flex-direction:column;transition:border-color .13s,transform .13s}
+.p:hover{border-color:var(--chrome-d)}
+.p.on{border-color:var(--hot);box-shadow:0 0 0 2px rgba(200,16,46,.16),var(--sh)}
+.p .im{position:relative;aspect-ratio:1/1;background:#eceef1;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;overflow:hidden}
+.p .im img{width:100%;height:100%;object-fit:contain;padding:7px;display:block}
+.p.sold .im img{filter:grayscale(.55) brightness(.82)}
+.sold-band{position:absolute;left:-30%;right:-30%;top:50%;transform:translateY(-50%) rotate(-11deg);
+  background:rgba(11,11,12,.62);color:#fff;text-align:center;font-family:var(--cond);font-size:19px;
+  font-weight:700;letter-spacing:.34em;text-transform:uppercase;padding:5px 0;pointer-events:none;
+  text-indent:.34em;border-top:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28)}
+.po{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(217,164,65,.5);background:rgba(217,164,65,.1);
+  padding:1px 5px;border-radius:3px}
+.p.sold .qb{background:var(--gold);color:#241a06}
+.p.sold.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(217,164,65,.22),var(--sh)}
+.p.sold.on .stp{border-color:var(--gold)}
+.p.sold.on .stp input{color:var(--gold)}
+.tgl{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink2);cursor:pointer;white-space:nowrap;padding:7px 10px;
+  border:1px solid var(--line);border-radius:5px;background:var(--card)}
+.tgl input{width:15px;height:15px;accent-color:var(--hot);margin:0}
+.tgl:hover{border-color:var(--ink3);color:var(--ink)}
+#lb .nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);color:#fff;width:46px;height:46px;border-radius:50%;
+  font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+#lb .nav:hover{background:rgba(255,255,255,.24)}
+#lb #lbPrev{left:16px} #lb #lbNext{right:16px}
+#lb .soldnote{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;margin-top:8px}
+.p .qb{position:absolute;top:6px;right:6px;background:var(--hot);color:#fff;font-family:var(--cond);
+  font-size:14px;font-weight:700;min-width:24px;height:24px;border-radius:12px;display:none;
+  align-items:center;justify-content:center;padding:0 7px;letter-spacing:.03em}
+.p.on .qb{display:flex}
+.p .tx{padding:9px 10px 10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.p .nm{font-size:12.5px;font-weight:600;line-height:1.28;flex:1;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.p .cd{font-family:var(--cond);font-size:12px;font-weight:600;letter-spacing:.07em;color:var(--ink3)}
+.p .row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.p .pr{font-family:var(--cond);font-size:19px;font-weight:700}
+.stp{display:flex;align-items:center;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--card)}
+.stp button{width:26px;height:26px;border:0;background:none;cursor:pointer;color:var(--ink3);font-size:15px;line-height:1;transition:.12s}
+.stp button:hover{background:var(--ink);color:#fff}
+.stp input{width:28px;height:26px;border:0;text-align:center;font-size:13px;font-weight:700;background:none;-moz-appearance:textfield}
+.stp input::-webkit-outer-spin-button,.stp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.stp input:focus{outline:none;background:var(--hot-l)}
+.p.on .stp{border-color:var(--hot)}
+.p.on .stp input{color:var(--hot)}
+.empty{text-align:center;color:var(--ink3);padding:70px 20px;font-size:14px}
+.more{display:block;width:100%;margin-top:16px;padding:13px;border:1px solid var(--line);background:var(--card);
+  border-radius:7px;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink2);cursor:pointer}
+.more:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* lightbox */
+#lb{position:fixed;inset:0;background:rgba(6,6,8,.92);z-index:70;display:none;
+  align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb .box{max-width:560px;width:100%;text-align:center}
+#lb img{max-width:100%;max-height:66vh;border-radius:6px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+#lb .cap{color:#fff;margin-top:14px}
+#lb .cap b{display:block;font-size:17px;font-weight:600}
+#lb .cap i{font-style:normal;font-family:var(--cond);font-size:14px;letter-spacing:.09em;color:var(--chrome)}
+#lb .cap em{font-style:normal;display:block;font-family:var(--cond);font-size:26px;font-weight:700;margin-top:6px}
+#lb .add{margin-top:14px;background:var(--hot);color:#fff;border:0;border-radius:6px;padding:12px 26px;
+  font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;cursor:pointer}
+
+/* order panel */
+.pan{position:sticky;top:72px;border:1px solid var(--line);border-radius:8px;background:var(--card);
+  overflow:hidden;box-shadow:var(--sh)}
+.pan h3{font-family:var(--cond);font-size:17px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  padding:12px 15px;background:var(--ink);color:#fff;display:flex;justify-content:space-between;align-items:center}
+.pan h3 span{font-family:'Barlow';font-weight:500;color:var(--chrome);font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+.lines{max-height:30vh;overflow-y:auto}
+.ln{display:flex;gap:9px;align-items:flex-start;padding:9px 15px;border-bottom:1px solid var(--line2);font-size:13px}
+.ln .q{font-family:var(--cond);font-size:15px;color:var(--hot);font-weight:700;min-width:22px}
+.ln .x{flex:1;min-width:0}
+.ln .x b{font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ln .x i{font-style:normal;color:var(--ink3);font-family:var(--cond);font-size:11.5px;letter-spacing:.07em}
+.ln .v{font-weight:700;white-space:nowrap}
+.ln .rm{border:0;background:none;cursor:pointer;color:var(--ink3);font-size:15px;line-height:1;padding:0 0 0 3px}
+.ln .rm:hover{color:var(--hot)}
+.pan .none{padding:26px 16px;text-align:center;color:var(--ink3);font-size:13px;line-height:1.6}
+.sum{padding:10px 15px 11px;border-top:1px solid var(--line);background:var(--soft);display:grid;gap:5px}
+.sr{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px}
+.sr span:first-child{color:var(--ink2);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:10.5px}
+.sr span:last-child{font-weight:600}
+.tot{padding:12px 15px;border-top:2px solid var(--ink);background:var(--soft);display:flex;justify-content:space-between;align-items:center}
+.tot small{font-family:var(--cond);font-size:15px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.tot b{font-family:var(--cond);font-size:31px;font-weight:700;line-height:1;box-shadow:inset 0 -7px 0 rgba(200,16,46,.22)}
+.fld{padding:13px 15px 9px;display:grid;gap:8px}
+.fld input,.fld textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:5px;
+  font-size:13.5px;background:var(--bg);font-family:inherit;resize:vertical}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--ink);background:var(--card);
+  box-shadow:0 0 0 3px rgba(200,16,46,.12)}
+.pan .act{padding:0 15px 13px;display:grid;gap:7px}
+.btn{border:0;border-radius:5px;padding:12px;font-size:12.5px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px;transition:.14s;letter-spacing:.09em;text-transform:uppercase}
+.btn:disabled{opacity:.34;cursor:not-allowed}
+.b2{background:var(--card);color:var(--ink2);border:1px solid var(--line)}
+.b2:hover:not(:disabled){background:var(--soft);color:var(--ink);border-color:var(--ink3)}
+.bwa{background:#25d366;color:#06331c}
+.bwa:hover:not(:disabled){background:#1eb857}
+.byo{background:var(--ink);color:#fff}
+.byo:hover:not(:disabled){background:#25262a}
+.byo::after{content:"VISA · MASTERCARD";font-size:8px;letter-spacing:.09em;opacity:.55;font-weight:700}
+.cardnote{font-size:10.5px;color:var(--ink3);line-height:1.45;margin:-1px 0 2px;text-align:center}
+
+/* payment */
+.pay{border-top:1px solid var(--line);background:var(--soft);padding:12px 15px 14px}
+.pay h4{font-family:var(--cond);font-size:15px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.pay h4::after{content:"Instant";background:var(--hot);color:#fff;font-family:'Barlow';font-size:9px;
+  font-weight:700;letter-spacing:.07em;padding:2px 6px;border-radius:3px}
+.pay .lead{font-size:12px;color:var(--ink2);line-height:1.5;margin-bottom:9px}
+.prow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}
+.prow .k{font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);min-width:62px}
+.prow .payv{flex:1;font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cp{border:1px solid var(--line);background:var(--card);color:var(--ink2);cursor:pointer;font-size:9.5px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:3px;white-space:nowrap}
+.cp:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cp.done{background:var(--ok);color:#fff;border-color:var(--ok)}
+.payfoot{font-size:11px;color:var(--ink3);line-height:1.5;margin-top:9px}
+.note{font-size:11px;color:var(--ink3);padding:0 15px 15px;line-height:1.5}
+
+/* mobile bar */
+.mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);
+  border-top:3px solid var(--chrome);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;gap:12px}
+.mbar .s{flex:1;line-height:1.1}
+.mbar .s i{font-style:normal;display:block;font-size:9.5px;color:var(--ink3);letter-spacing:.13em;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.mbar .s b{font-family:var(--cond);font-size:25px;font-weight:700;color:#fff}
+.mbar .btn{padding:11px 19px;background:var(--hot);color:#fff}
+.mbar .btn:disabled{background:#2a2a2e;color:var(--ink3);opacity:1}
+.scrim{display:none;position:fixed;inset:0;background:rgba(11,11,12,.6);z-index:45}
+.scrim.on{display:block}
+#tst{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);background:var(--ink);color:#fff;
+  padding:11px 20px;border-radius:5px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  opacity:0;pointer-events:none;transition:.22s;z-index:80;box-shadow:0 10px 34px rgba(0,0,0,.35)}
+#tst.on{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:960px){
+  .page{grid-template-columns:1fr;padding-bottom:calc(94px + env(safe-area-inset-bottom))}
+  .mbar{display:flex}
+  .srch input,.fld input,.fld textarea,.stp input{font-size:16px}
+  .stp input{width:34px}
+  .pan{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:50;border-radius:10px 10px 0 0;border:0;
+    box-shadow:0 -8px 40px rgba(0,0,0,.3);transform:translateY(102%);
+    transition:transform .28s cubic-bezier(.32,.72,0,1);max-height:90vh;overflow-y:auto;display:block;
+    padding-bottom:env(safe-area-inset-bottom)}
+  .pan.open{transform:translateY(0)}
+  .pan h3{cursor:pointer;position:sticky;top:0;z-index:2}
+  .pan h3::after{content:"Close";font-family:'Barlow';color:var(--chrome);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+  .bar .in{flex-wrap:wrap;gap:8px}
+  .srch{max-width:none;flex:1 1 100%}
+  .mast img{height:54px}
+  .strip .in{gap:7px;flex-direction:column}
+}
+@media(max-width:520px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(144px,1fr));gap:10px}
+  .mast .pill{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<header class="mast"><div class="in">
+  <img id="logo" alt="Club Chevelle">
+  <span class="tag">Vintage Metal Plates · Est. Since Always</span>
+  <span class="pill" id="pill">Every plate R99</span>
+</div></header>
+
+<div class="strip"><div class="in">
+  <span><b>Catalogue</b> <em id="sCount" style="font-style:normal"></em></span>
+  <span><b>Delivery</b> <em id="sDel" style="font-style:normal"></em></span>
+  <span><b>Payment</b> <em style="font-style:normal">Card, PayShap or EFT</em></span>
+</div></div>
+
+<div class="bar"><div class="in">
+  <div class="srch" id="srchWrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Search 558 plates or a code…" aria-label="Search plates" autocomplete="off">
+    <button class="clr" id="qClr" aria-label="Clear search">&times;</button>
+  </div>
+  <label class="tgl" title="Hide plates that are sold out"><input type="checkbox" id="hideSold">Hide sold</label>
+  <div class="tabs" id="tabs"></div>
+</div></div>
+
+<main class="page">
+  <div>
+    <div class="cathead"><h2 id="catName"></h2><span id="catCount"></span></div>
+    <div class="grid" id="grid"></div>
+    <button class="more" id="more" hidden></button>
+    <div class="empty" id="empty" hidden>No plates match that search.</div>
+  </div>
+
+  <aside class="pan" id="pan">
+    <h3 id="panHead">Your Order <span id="panCount">0 plates</span></h3>
+    <div class="none" id="panNone">No plates selected yet.<br>Tap a plate to add it.</div>
+    <div class="lines" id="panLines"></div>
+    <div class="sum">
+      <div class="sr"><span>Plates</span><span id="panSub">—</span></div>
+      <div class="sr" id="panDelRow"><span>Delivery</span><span id="panDel">—</span></div>
+      <div class="sr" id="panPreRow" hidden><span style="color:var(--gold)">Pre-order</span><span id="panPre" style="color:var(--gold)">—</span></div>
+    </div>
+    <div class="tot"><small>Total</small><b id="panTotal">R0</b></div>
+    <div class="fld">
+      <input id="cName" placeholder="Your name" autocomplete="name">
+      <input id="cTel" placeholder="Contact number" autocomplete="tel" inputmode="tel">
+      <textarea id="cNote" rows="2" placeholder="Delivery address" autocomplete="street-address"></textarea>
+    </div>
+    <div class="act">
+      <button class="btn bwa" id="bWa">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.07 2.86 1.22 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.9-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.02h-.01a8.2 8.2 0 01-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.17 8.17 0 01-1.25-4.36c0-4.54 3.7-8.23 8.23-8.23a8.16 8.16 0 015.81 2.42 8.14 8.14 0 012.41 5.82c-.01 4.54-3.7 8.23-8.23 8.23z"/></svg>
+        Send order on WhatsApp</button>
+      <button class="btn byo" id="bYoco">Pay by card now</button>
+      <p class="cardnote" id="cardNote"></p>
+      <button class="btn b2" id="bCopy">Copy order text</button>
+      <button class="btn b2" id="bClr">Clear order</button>
+    </div>
+    <div class="pay">
+      <h4>How to pay</h4>
+      <p class="lead" id="payLead"></p>
+      <div class="prow"><span class="k">PayShap</span><span class="payv" id="payShap"></span><button class="cp" data-cp="payShap">Copy</button></div>
+      <div class="prow"><span class="k">Bank</span><span class="payv" id="payBank"></span><button class="cp" data-cp="payBank">Copy</button></div>
+      <div class="prow"><span class="k">Account</span><span class="payv" id="payAcc"></span><button class="cp" data-cp="payAcc">Copy</button></div>
+      <div class="prow"><span class="k">Branch</span><span class="payv" id="payBr"></span><button class="cp" data-cp="payBr">Copy</button></div>
+      <div class="prow" id="rowYoco"><span class="k">Card</span><span class="payv" id="payYoco"></span><button class="cp" data-cp="payYoco">Copy</button></div>
+      <div class="prow"><span class="k">Reference</span><span class="payv" id="payRef"></span><button class="cp" data-cp="payRef">Copy</button></div>
+      <div class="prow"><span class="k">Amount</span><span class="payv" id="payAmt">—</span><button class="cp" data-cp="payAmt">Copy</button></div>
+      <p class="payfoot" id="payFoot"></p>
+    </div>
+    <p class="note" id="panNote"></p>
+  </aside>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<div class="mbar" id="mbar">
+  <div class="s"><i id="mCount">0 plates</i><b id="mTotal">R0</b></div>
+  <button class="btn" id="mOpen" disabled>View order</button>
+</div>
+<div id="lb">
+  <button class="nav" id="lbPrev" aria-label="Previous plate">‹</button>
+  <div class="box"><img id="lbI" alt=""><div class="cap">
+    <b id="lbN"></b><i id="lbC"></i><em id="lbP"></em>
+    <div class="soldnote" id="lbS" hidden>Sold out — available to pre-order</div>
+    <button class="add" id="lbA">Add to order</button></div></div>
+  <button class="nav" id="lbNext" aria-label="Next plate">›</button>
+</div>
+<div id="tst"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   EDIT THIS BLOCK ONLY — everything below it is machinery.
+   ══════════════════════════════════════════════════════════════ */
+const BRAND = {
+  name:     "Club Chevelle",
+  legal:    "Get Buzzed (Pty) Ltd t/a Club Chevelle",
+  whatsapp: "27649437890",            // 064 943 7890, international format
+  currency: "R",
+  price:    99,                       // every plate is R99
+  delivery: 99,                       // flat courier fee per order. Set to 0 to remove the line.
+  deliveryTime: "3–5 working days",
+
+  // Yoco payment page. The app appends ?amount=&reference= which pre-fills and locks both,
+  // so the customer only enters their name and card. Leave blank to hide the card button.
+  yoco:     "https://pay.yoco.com/get-buzzed",
+  yocoName: "Club Chevelle",          // the trading name the Yoco page displays
+
+  payShap:  "064 943 7890",           // must be registered as a ShapID in FNB banking
+  bankName: "FNB — Gold Business Account",
+  bankAcc:  "6307 4689 771",
+  bankBr:   "252155 (Bedford Gardens)",
+
+  // Sold plates stay in the catalogue under a SOLD banner and can still be pre-ordered.
+  // Add codes as stock runs out, e.g. ["CC-CAR-014","CC-BER-002"]
+  soldOut:  [],
+
+  footnote: "Every plate is R99. A flat R99 courier fee applies per order, anywhere in South Africa. Plates marked SOLD can still be added as a pre-order — you are not charged for those until they are back in stock and you confirm. Sending an order does not charge you."
+};
+/* ══════════════════════════════════════════════════════════════ */
+
+const CATS = [{"k":"CAR","name":"Cars & Classics","items":[{"c":"CC-CAR-001","n":"1947 Chrysler"},{"c":"CC-CAR-002","n":"70 Boss 302 Son Of Trans-Am"},{"c":"CC-CAR-003","n":"Alfa Romeo 147"},{"c":"CC-CAR-004","n":"Alfa Romeo 1938 Tipo 8C"},{"c":"CC-CAR-005","n":"Alfa Romeo 8C 2900 B"},{"c":"CC-CAR-006","n":"Alfa Romeo Alfasud Sprint"},{"c":"CC-CAR-007","n":"Alfa Romeo Championship Bred"},{"c":"CC-CAR-008","n":"Alfa Romeo Giulia Berlina"},{"c":"CC-CAR-009","n":"Alfa Romeo Giulietta Spider"},{"c":"CC-CAR-010","n":"Alfa Romeo GTA"},{"c":"CC-CAR-011","n":"Alfa Romeo GTA 1300 Junior"},{"c":"CC-CAR-012","n":"Alfa Romeo Meccanica Emozioni"},{"c":"CC-CAR-013","n":"Alfa Romeo Quadrifoglio"},{"c":"CC-CAR-014","n":"Alfa Romeo Quadrifoglio Racing"},{"c":"CC-CAR-015","n":"Alfa Romeo Service"},{"c":"CC-CAR-016","n":"Alfa Romeo Take A Jet"},{"c":"CC-CAR-017","n":"Americas Dream Car Corvette"},{"c":"CC-CAR-018","n":"Austin Healey 100"},{"c":"CC-CAR-019","n":"BMW Deutsche Sportwagen"},{"c":"CC-CAR-020","n":"Camel Racing Team Mobil 1"},{"c":"CC-CAR-021","n":"Carburetti Legenden Alfa GTA"},{"c":"CC-CAR-022","n":"Chevrolet Cooler If You Did"},{"c":"CC-CAR-023","n":"Chevrolet Corvette Stingray"},{"c":"CC-CAR-024","n":"Chevrolet Impala Corvette Sting\u2026"},{"c":"CC-CAR-025","n":"Chevy Power Chevrolet Since 19\u2026"},{"c":"CC-CAR-026","n":"Chrysler Charger RT E49"},{"c":"CC-CAR-027","n":"Citroen 2CV Collection"},{"c":"CC-CAR-028","n":"Citroen 2CV Dolly Advert"},{"c":"CC-CAR-029","n":"Citroen 2CV Joie De Vivre"},{"c":"CC-CAR-030","n":"Citroen 2CV Ricard"},{"c":"CC-CAR-031","n":"Citroen 2CV Tous Types"},{"c":"CC-CAR-032","n":"Citroen DS 19"},{"c":"CC-CAR-033","n":"Classic Green Car Havana"},{"c":"CC-CAR-034","n":"Cobra 427"},{"c":"CC-CAR-035","n":"Coors Best Of Racing NASCAR"},{"c":"CC-CAR-036","n":"Corvette 1953 1967 Collection"},{"c":"CC-CAR-037","n":"Corvette 1958 Chevrolet"},{"c":"CC-CAR-038","n":"Corvette Evolution Real McCoy"},{"c":"CC-CAR-039","n":"Corvette Ten Seconds To Lift Off"},{"c":"CC-CAR-040","n":"Dunlop Grand Prix Racer"},{"c":"CC-CAR-041","n":"Europe Classic Cars"},{"c":"CC-CAR-042","n":"Fangio Mercedes 300 SLR"},{"c":"CC-CAR-043","n":"Ferrari 250 GT California Spyder"},{"c":"CC-CAR-044","n":"Ferrari 250 GT Festival Speed"},{"c":"CC-CAR-045","n":"Ferrari 250 GT Spyder"},{"c":"CC-CAR-046","n":"Ferrari 250 GTO"},{"c":"CC-CAR-047","n":"Ferrari Shield Emblem"},{"c":"CC-CAR-048","n":"Fiat 500 1957 1975"},{"c":"CC-CAR-049","n":"Ford 1933 Advert"},{"c":"CC-CAR-050","n":"Ford Capri"},{"c":"CC-CAR-051","n":"Ford Falcon Cobra"},{"c":"CC-CAR-052","n":"Ford Fiesta Bonded Warehouse"},{"c":"CC-CAR-053","n":"Ford Genuine Parts V8"},{"c":"CC-CAR-054","n":"Ford Mustang Classic Muscle Car"},{"c":"CC-CAR-055","n":"Gone Surfing VW Combi"},{"c":"CC-CAR-056","n":"Gulf Heuer Racing Sign"},{"c":"CC-CAR-057","n":"Gulf Porsche 917 Le Mans"},{"c":"CC-CAR-058","n":"Hasta La Victoria Siempre Cuba"},{"c":"CC-CAR-059","n":"Holden Monaro GTS 350"},{"c":"CC-CAR-060","n":"Home Is Where You Park It"},{"c":"CC-CAR-061","n":"Jaguar E Type"},{"c":"CC-CAR-062","n":"Jaguar Mark IV E Type D-Type"},{"c":"CC-CAR-063","n":"Le Mans 1993 Michelin Peugeot"},{"c":"CC-CAR-064","n":"Le Mans 24h 1965 Ferrari"},{"c":"CC-CAR-065","n":"Let's Get Lost VW Bus"},{"c":"CC-CAR-066","n":"Martini Racing Team"},{"c":"CC-CAR-067","n":"Maserati Lamborghini Ferrari Trio"},{"c":"CC-CAR-068","n":"Maserati Trident Emblem"},{"c":"CC-CAR-069","n":"Mercedes Benz Pin Up Girl"},{"c":"CC-CAR-070","n":"Mini Cooper Rally Racing"},{"c":"CC-CAR-071","n":"Mini Cooper S Winner"},{"c":"CC-CAR-072","n":"Mini Cooper Union Jack Trio"},{"c":"CC-CAR-073","n":"Monaco Grand Prix Race Scene"},{"c":"CC-CAR-074","n":"Motel Sign Classic Chevrolet"},{"c":"CC-CAR-075","n":"Mustang Fifty Years"},{"c":"CC-CAR-076","n":"Mustang The Unexpected"},{"c":"CC-CAR-077","n":"Peter Brock Tribute 1945 2006"},{"c":"CC-CAR-078","n":"Pontiac V8 Indian Head"},{"c":"CC-CAR-079","n":"Porsche 356 Race Scene"},{"c":"CC-CAR-080","n":"Porsche 911 356B Trio"},{"c":"CC-CAR-081","n":"Porsche 911 Carrera RS 2.7"},{"c":"CC-CAR-082","n":"Porsche GT3"},{"c":"CC-CAR-083","n":"Range Rover Classic"},{"c":"CC-CAR-084","n":"Renault 4CV Nice Paris 1947"},{"c":"CC-CAR-085","n":"Renault 4CV Salon Paris"},{"c":"CC-CAR-086","n":"Renault Elf Cycles Gitane"},{"c":"CC-CAR-087","n":"Rouen Les Essarts 1978 Castrol"},{"c":"CC-CAR-088","n":"Shelby Cobra Emblem"},{"c":"CC-CAR-089","n":"Speed Limit 200 NASCAR"},{"c":"CC-CAR-090","n":"Spettacolo Sportivo Alfa Romeo"},{"c":"CC-CAR-091","n":"Still Plays With Cars Hotrod"},{"c":"CC-CAR-092","n":"The American Dream"},{"c":"CC-CAR-093","n":"The Continental Mark IV"},{"c":"CC-CAR-094","n":"The Corvette By Chevrolet"},{"c":"CC-CAR-095","n":"Vintage Formula One Racer Dun\u2026"},{"c":"CC-CAR-096","n":"Vintage Grand Prix Race Scene"},{"c":"CC-CAR-097","n":"Vintage Hot Rods"},{"c":"CC-CAR-098","n":"Volkswagen Beetle Evolution"},{"c":"CC-CAR-099","n":"Volkswagen Logo Sign"},{"c":"CC-CAR-100","n":"Volkswagen Samba Bus"},{"c":"CC-CAR-101","n":"Volkswagen Transporter"},{"c":"CC-CAR-102","n":"VW Beetle Parts Interchangeable"},{"c":"CC-CAR-103","n":"VW Combi"},{"c":"CC-CAR-104","n":"VW Kombi California Highway 1"},{"c":"CC-CAR-105","n":"XY Falcon GTHO Phase III"}]},{"k":"PET","name":"Petrol & Motor Oil","items":[{"c":"CC-PET-001","n":"Aero Eastern Motor Oil"},{"c":"CC-PET-002","n":"Agip"},{"c":"CC-PET-003","n":"Agip Benzina Italiana Garage Reid"},{"c":"CC-PET-004","n":"Alemite Pennsylvania Motor Oil"},{"c":"CC-PET-005","n":"Amoco Motor Oil Medium"},{"c":"CC-PET-006","n":"Atlantic"},{"c":"CC-PET-007","n":"Atlantic Imperial Motor Oil"},{"c":"CC-PET-008","n":"Atlantic White Flash"},{"c":"CC-PET-009","n":"Avio Motor Oil"},{"c":"CC-PET-010","n":"Beverol Motor Oil"},{"c":"CC-PET-011","n":"BP Approved Motor Services"},{"c":"CC-PET-012","n":"BP Motor Spirit"},{"c":"CC-PET-013","n":"BP The Winner British Petrol"},{"c":"CC-PET-014","n":"Castrol Classic XL 20w/50"},{"c":"CC-PET-015","n":"Castrol Service"},{"c":"CC-PET-016","n":"Deep-Rock Motor Oil"},{"c":"CC-PET-017","n":"Diamond 760 Motor Oil"},{"c":"CC-PET-018","n":"Drain And Refill With Hancock"},{"c":"CC-PET-019","n":"Elephant Petroleum Vacuum Oil"},{"c":"CC-PET-020","n":"Elf Race Fuel"},{"c":"CC-PET-021","n":"En-Ar-Co Motor Oils"},{"c":"CC-PET-022","n":"Esso Extra Motor Oil"},{"c":"CC-PET-023","n":"Esso Extra Motor Oil Black"},{"c":"CC-PET-024","n":"Esso Extra Motor Oil Blue"},{"c":"CC-PET-025","n":"Esso Huiles Pour Moteur"},{"c":"CC-PET-026","n":"Esso Petrol Agency"},{"c":"CC-PET-027","n":"Esso Uniflo Motor Oil"},{"c":"CC-PET-028","n":"Fleet Wing Gasoline Motor Oil"},{"c":"CC-PET-029","n":"Gilmore Gasoline Monarch Of All"},{"c":"CC-PET-030","n":"Gilmore Lion Head Motor Oil"},{"c":"CC-PET-031","n":"Golden Fleece Motor Oil"},{"c":"CC-PET-032","n":"Golden Shell Motor Oil"},{"c":"CC-PET-033","n":"Good Gulf"},{"c":"CC-PET-034","n":"Good Gulf No Nox"},{"c":"CC-PET-035","n":"Gulf Dealer"},{"c":"CC-PET-036","n":"Gulf Gasoline"},{"c":"CC-PET-037","n":"Gulf Oil"},{"c":"CC-PET-038","n":"Gulf Regular Unleaded Diesel"},{"c":"CC-PET-039","n":"Gulf Supreme Motor Oil"},{"c":"CC-PET-040","n":"Gulflube Dewaxed Motor Oil"},{"c":"CC-PET-041","n":"Hot-Rod Hi-Speed Motor Oil"},{"c":"CC-PET-042","n":"Hyvis Motor Oils"},{"c":"CC-PET-043","n":"Just Ahead Mobilgas"},{"c":"CC-PET-044","n":"Lancia Recommande Veedol"},{"c":"CC-PET-045","n":"Last Chance Gas"},{"c":"CC-PET-046","n":"Last Chance Gas And Oil"},{"c":"CC-PET-047","n":"Last Chance Gas Route 66"},{"c":"CC-PET-048","n":"Lubri-Gas Lubricated Gasoline"},{"c":"CC-PET-049","n":"Lucky Lady Motor Oils"},{"c":"CC-PET-050","n":"Mobil Pegasus"},{"c":"CC-PET-051","n":"Mobilgas Special"},{"c":"CC-PET-052","n":"Mother Penn Motor Oil"},{"c":"CC-PET-053","n":"Oilzum Motor Oil"},{"c":"CC-PET-054","n":"Oilzum Motorcycle Oil"},{"c":"CC-PET-055","n":"Pegasus Motor Spirit"},{"c":"CC-PET-056","n":"Penno Motor Oil"},{"c":"CC-PET-057","n":"Phillips 66 Premium Motor Oil"},{"c":"CC-PET-058","n":"Pool Today But Shell Tomorrow"},{"c":"CC-PET-059","n":"Power-Lube Motor Oil"},{"c":"CC-PET-060","n":"Premium Gasoline"},{"c":"CC-PET-061","n":"Pullman Graphited Motor Oil"},{"c":"CC-PET-062","n":"Pure Firebird Gasolines"},{"c":"CC-PET-063","n":"Pure Firebird Super"},{"c":"CC-PET-064","n":"Put A Tiger In Your Tank"},{"c":"CC-PET-065","n":"Put A Tiger In Your Tank Esso"},{"c":"CC-PET-066","n":"Put A Tiger In Your Tank Texaco"},{"c":"CC-PET-067","n":"Red Crown Gasoline"},{"c":"CC-PET-068","n":"Red Head Petroleum Products"},{"c":"CC-PET-069","n":"Red Indian Gasoline"},{"c":"CC-PET-070","n":"Red Indian Motor Oils"},{"c":"CC-PET-071","n":"Richlube Motor Oil"},{"c":"CC-PET-072","n":"Shell Aviation Biplanes"},{"c":"CC-PET-073","n":"Shell Motor Oil"},{"c":"CC-PET-074","n":"Shell Motor Oils"},{"c":"CC-PET-075","n":"Shell Motor Spirit Motor Oils"},{"c":"CC-PET-076","n":"Shell Your Car's Life Insurance"},{"c":"CC-PET-077","n":"Standard Chevron Drive"},{"c":"CC-PET-078","n":"Stop For Shell Motor Oil"},{"c":"CC-PET-079","n":"STP"},{"c":"CC-PET-080","n":"STP Add To Your Oil"},{"c":"CC-PET-081","n":"STP Champions Choice"},{"c":"CC-PET-082","n":"STP Oil Treatment"},{"c":"CC-PET-083","n":"Sunoco The Distilled Oil"},{"c":"CC-PET-084","n":"Super Shell Motor Lubricating Oil"},{"c":"CC-PET-085","n":"Texaco"},{"c":"CC-PET-086","n":"Texaco Fire-Chief Hatful Of Pep"},{"c":"CC-PET-087","n":"Texaco Motor Oil"},{"c":"CC-PET-088","n":"Texaco Motor Oil Gasoline"},{"c":"CC-PET-089","n":"Texaco Oasis Station"},{"c":"CC-PET-090","n":"Texaco Petroleum Products"},{"c":"CC-PET-091","n":"Texaco Shield"},{"c":"CC-PET-092","n":"Texaco Sky Chief Gasoline"},{"c":"CC-PET-093","n":"The Best Racing Oil"},{"c":"CC-PET-094","n":"Tiolene Motor Oil"},{"c":"CC-PET-095","n":"Tydol Flying A Dealer"},{"c":"CC-PET-096","n":"Veedol Aero Motor Oil"},{"c":"CC-PET-097","n":"Wakefield Castrol Motor Oil"},{"c":"CC-PET-098","n":"White Rose National Motor Oil"}]},{"k":"GAR","name":"Garage & Tyres","items":[{"c":"CC-GAR-001","n":"Abarth Servizio"},{"c":"CC-GAR-002","n":"Ace Garage Services"},{"c":"CC-GAR-003","n":"Busted Knuckle Garage"},{"c":"CC-GAR-004","n":"Champion Spark Plug"},{"c":"CC-GAR-005","n":"Champion Spark Plugs"},{"c":"CC-GAR-006","n":"Chevrolet Sales And Service"},{"c":"CC-GAR-007","n":"Classic Garage Service And Rep\u2026"},{"c":"CC-GAR-008","n":"Continental Tyres"},{"c":"CC-GAR-009","n":"Dad's Garage Project Car"},{"c":"CC-GAR-010","n":"Dunlop Motor Tyres"},{"c":"CC-GAR-011","n":"Dunlop Tyre Service"},{"c":"CC-GAR-012","n":"Dunlop Tyres"},{"c":"CC-GAR-013","n":"Edison Spark Plugs"},{"c":"CC-GAR-014","n":"Ford Genuine Parts V8"},{"c":"CC-GAR-015","n":"Full Service Garage Since 1960"},{"c":"CC-GAR-016","n":"Garage Rules"},{"c":"CC-GAR-017","n":"Garage Since 1936"},{"c":"CC-GAR-018","n":"Genuine Ford Parts Used Here"},{"c":"CC-GAR-019","n":"Genuine Stolen Car Parts"},{"c":"CC-GAR-020","n":"Goodyear Authorised Dealer"},{"c":"CC-GAR-021","n":"Goodyear Nylon Eagle Tyres"},{"c":"CC-GAR-022","n":"Goodyear Service Station"},{"c":"CC-GAR-023","n":"Goodyear Stick-On-Soles"},{"c":"CC-GAR-024","n":"Goodyear Stick-On-Soles Pin-Up"},{"c":"CC-GAR-025","n":"Goodyear Super Cushion Tires"},{"c":"CC-GAR-026","n":"Goodyear Tire Sales"},{"c":"CC-GAR-027","n":"Goodyear Tyres"},{"c":"CC-GAR-028","n":"Goodyear Tyres Rainbow"},{"c":"CC-GAR-029","n":"Hot-Rod Garage"},{"c":"CC-GAR-030","n":"Last Stop Hot Rod Repair"},{"c":"CC-GAR-031","n":"Lucky Lugnuts Full Service Gara\u2026"},{"c":"CC-GAR-032","n":"Michelin Pneus Velo"},{"c":"CC-GAR-033","n":"Michelin Tyres"},{"c":"CC-GAR-034","n":"Mopar Parts And Accessories"},{"c":"CC-GAR-035","n":"Mopar You're With Us"},{"c":"CC-GAR-036","n":"My Garage My Rules"},{"c":"CC-GAR-037","n":"My Garage My Rules Hot Rod"},{"c":"CC-GAR-038","n":"NGK Spark Plugs"},{"c":"CC-GAR-039","n":"Pirelli Elephant"},{"c":"CC-GAR-040","n":"Pirelli Pneumatici"},{"c":"CC-GAR-041","n":"Rat Torque Brothers Speed Shop"},{"c":"CC-GAR-042","n":"Rolls-Royce Champion Plugs"},{"c":"CC-GAR-043","n":"Shelby Genuine Parts Accessories"},{"c":"CC-GAR-044","n":"Super Chevrolet Service"},{"c":"CC-GAR-045","n":"Vintage Evil Racing Parts"}]},{"k":"MCY","name":"Motorcycles","items":[{"c":"CC-MCY-001","n":"80s Icons Yamaha RD350LC"},{"c":"CC-MCY-002","n":"Brugnat Moto-Cross Extra-Natio\u2026"},{"c":"CC-MCY-003","n":"BSA 250 OHV Star"},{"c":"CC-MCY-004","n":"BSA Gold Star 1952"},{"c":"CC-MCY-005","n":"BSA Goldstar Best Of British"},{"c":"CC-MCY-006","n":"Harley-Davidson Classic Models"},{"c":"CC-MCY-007","n":"Harley-Davidson Motor Cycles"},{"c":"CC-MCY-008","n":"Indian Sales And Service"},{"c":"CC-MCY-009","n":"Isle Of Man Norton"},{"c":"CC-MCY-010","n":"Jawa Motorcycle"},{"c":"CC-MCY-011","n":"Kreidler"},{"c":"CC-MCY-012","n":"KTM Racing"},{"c":"CC-MCY-013","n":"Live The Legend Ride A Classic"},{"c":"CC-MCY-014","n":"Navajo Cycle Shop"},{"c":"CC-MCY-015","n":"Norton British Machines 1898"},{"c":"CC-MCY-016","n":"Norton British Machines Wreath"},{"c":"CC-MCY-017","n":"Norton Motorcycles Parts Sales\u2026"},{"c":"CC-MCY-018","n":"Rizla Suzuki"},{"c":"CC-MCY-019","n":"Route 66 Motorcycle"},{"c":"CC-MCY-020","n":"The Indian Motocycles"},{"c":"CC-MCY-021","n":"Triumph Authorised Dealer"},{"c":"CC-MCY-022","n":"Triumph Best Motorcycle In World"},{"c":"CC-MCY-023","n":"Triumph Thruxton 900"},{"c":"CC-MCY-024","n":"Triumph Werke Nurnberg"},{"c":"CC-MCY-025","n":"TT Races 1961 Isle Of Man"},{"c":"CC-MCY-026","n":"TT Races 1967 Isle Of Man"},{"c":"CC-MCY-027","n":"Valentino Rossi 46"}]},{"k":"TRK","name":"Trucks & Tractors","items":[{"c":"CC-TRK-001","n":"Better Farming For Better Living"},{"c":"CC-TRK-002","n":"Chevrolet Trucks"},{"c":"CC-TRK-003","n":"Chevrolet Trucks Authorized De\u2026"},{"c":"CC-TRK-004","n":"Classic American Semi Truck"},{"c":"CC-TRK-005","n":"Dodge Truck"},{"c":"CC-TRK-006","n":"Farmall Improved Farming"},{"c":"CC-TRK-007","n":"Ford 8000 Tractor"},{"c":"CC-TRK-008","n":"Ford And Fordson Sales Service"},{"c":"CC-TRK-009","n":"Ford Motor Company Ford Trucks"},{"c":"CC-TRK-010","n":"GMC Trucks Sales Service"},{"c":"CC-TRK-011","n":"John Deere Model D Tractor"},{"c":"CC-TRK-012","n":"John Deere Quality Farm Equip\u2026"},{"c":"CC-TRK-013","n":"Mack Bulldog Golden Anniversary"},{"c":"CC-TRK-014","n":"Mack Trucks Diesel Power"},{"c":"CC-TRK-015","n":"Mack Trucks Mack Quality"},{"c":"CC-TRK-016","n":"Massey Ferguson MF25 Tractor"},{"c":"CC-TRK-017","n":"Massey-Ferguson Tractors And\u2026"},{"c":"CC-TRK-018","n":"McCormick-Deering Farmall Equ\u2026"},{"c":"CC-TRK-019","n":"Oliver 77 Tractor"},{"c":"CC-TRK-020","n":"This Is An International Harvester"},{"c":"CC-TRK-021","n":"This Is Mack Quality"},{"c":"CC-TRK-022","n":"Waterloo Boy Kerosene Tractor"}]},{"k":"PRK","name":"Parking & Warning","items":[{"c":"CC-PRK-001","n":"Alfa Romeo Parking Only"},{"c":"CC-PRK-002","n":"Bentley Parking Only"},{"c":"CC-PRK-003","n":"Chevrolet Parking Only"},{"c":"CC-PRK-004","n":"Corvette Parking Only"},{"c":"CC-PRK-005","n":"Ford Mustang Parking Only"},{"c":"CC-PRK-006","n":"Ford Parking Only"},{"c":"CC-PRK-007","n":"GMC Parking Only"},{"c":"CC-PRK-008","n":"Harley-Davidson Parking Only"},{"c":"CC-PRK-009","n":"Jaguar Parking Only"},{"c":"CC-PRK-010","n":"Jeep Parking Only Black"},{"c":"CC-PRK-011","n":"Jeep Parking Only Green"},{"c":"CC-PRK-012","n":"Lamborghini Parking Only"},{"c":"CC-PRK-013","n":"Land Rover Parking Only"},{"c":"CC-PRK-014","n":"Lexus Parking Only"},{"c":"CC-PRK-015","n":"Lincoln Parking Only"},{"c":"CC-PRK-016","n":"Mercedes-Benz Parking Only"},{"c":"CC-PRK-017","n":"Mini Parking Only"},{"c":"CC-PRK-018","n":"Moto Guzzi Parking Only"},{"c":"CC-PRK-019","n":"No Parking Sign"},{"c":"CC-PRK-020","n":"Parking For Ford Racing Fans"},{"c":"CC-PRK-021","n":"Porsche Parking Only"},{"c":"CC-PRK-022","n":"Ram Parking Only"},{"c":"CC-PRK-023","n":"Yamaha Parking Only"}]},{"k":"R66","name":"Route 66 & Road","items":[{"c":"CC-R66-001","n":"American Old Route US 66"},{"c":"CC-R66-002","n":"Americas Route 66 Mother Road"},{"c":"CC-R66-003","n":"Get Your Kicks On Route 66"},{"c":"CC-R66-004","n":"Get Your Kicks Route 66"},{"c":"CC-R66-005","n":"Get Your Kicks Route 66 Sign"},{"c":"CC-R66-006","n":"Historic Old Route 66"},{"c":"CC-R66-007","n":"Most Authentic Route 66"},{"c":"CC-R66-008","n":"Route 66 Classic Motorcycle"},{"c":"CC-R66-009","n":"Route 66 Feel The Freedom"},{"c":"CC-R66-010","n":"Route 66 Motel Classic Car"},{"c":"CC-R66-011","n":"Route 66 Rusted Shield"},{"c":"CC-R66-012","n":"Route 66 States Emblem"},{"c":"CC-R66-013","n":"Route 66 US States Emblem"},{"c":"CC-R66-014","n":"Route 66 Weathered Shield"},{"c":"CC-R66-015","n":"Route US 66 Distressed"},{"c":"CC-R66-016","n":"Route US 66 Shield"},{"c":"CC-R66-017","n":"The Most Authentic Route 66"}]},{"k":"BER","name":"Beer & Cider","items":[{"c":"CC-BER-001","n":"3 Monts Golden Ale"},{"c":"CC-BER-002","n":"Amstel Bier Premium 66 Pilsener"},{"c":"CC-BER-003","n":"Amstel Bier Red Sign"},{"c":"CC-BER-004","n":"Amstel Dark Beer Sign"},{"c":"CC-BER-005","n":"An Ode To Orval"},{"c":"CC-BER-006","n":"Ancre Pils Biere Alsace"},{"c":"CC-BER-007","n":"Anheuser-Busch Bottled Beers"},{"c":"CC-BER-008","n":"Bavaria Beer Cans Bottles"},{"c":"CC-BER-009","n":"Becks Beer Pin-Up"},{"c":"CC-BER-010","n":"Beer Bottles And Glasses"},{"c":"CC-BER-011","n":"Beer Doesn't Solve Any Problems"},{"c":"CC-BER-012","n":"Beer Drinkers Rock"},{"c":"CC-BER-013","n":"Beer Is The Reason"},{"c":"CC-BER-014","n":"Beer Styles Around The World"},{"c":"CC-BER-015","n":"Beer The Reason I Get Up"},{"c":"CC-BER-016","n":"Beer Week Collage"},{"c":"CC-BER-017","n":"Beers Of The World"},{"c":"CC-BER-018","n":"Best Beer Best Lager"},{"c":"CC-BER-019","n":"Best Head In Town Luckys Bar"},{"c":"CC-BER-020","n":"Birra In Tutto Il Mondo"},{"c":"CC-BER-021","n":"Black Cat Brewing Co"},{"c":"CC-BER-022","n":"Books Aren't All We Crack Open"},{"c":"CC-BER-023","n":"Bud Light Beer Sign"},{"c":"CC-BER-024","n":"Budweiser 25 Cents Served Here"},{"c":"CC-BER-025","n":"Budweiser King Of Beers Pin-Up"},{"c":"CC-BER-026","n":"Bulmers Irish Cider Original"},{"c":"CC-BER-027","n":"Bulmers Original Cider Pin-Up"},{"c":"CC-BER-028","n":"Carlsberg Beer"},{"c":"CC-BER-029","n":"Carlsberg Beer Sign"},{"c":"CC-BER-030","n":"Carlsberg Elephant Beer"},{"c":"CC-BER-031","n":"Carlsberg Lager At Its Best"},{"c":"CC-BER-032","n":"Cerveza Corona Extra"},{"c":"CC-BER-033","n":"Coffee Keeps Me Going Beer"},{"c":"CC-BER-034","n":"Coors Golden Beer"},{"c":"CC-BER-035","n":"Coors Light Ice Cold Label"},{"c":"CC-BER-036","n":"Coors MVP Most Valuable Pair"},{"c":"CC-BER-037","n":"Coors Trick Or Treat"},{"c":"CC-BER-038","n":"Corona Extra Beach Bottles"},{"c":"CC-BER-039","n":"Corona Extra Find Your Beach"},{"c":"CC-BER-040","n":"Corona Extra Imported Beer"},{"c":"CC-BER-041","n":"Corona Extra Pin-Up"},{"c":"CC-BER-042","n":"Corona Official Beer Beach"},{"c":"CC-BER-043","n":"Desperados Mojito Beer"},{"c":"CC-BER-044","n":"Drink Cold Beer Warm Friends"},{"c":"CC-BER-045","n":"Forget GPA Raise Your IPA"},{"c":"CC-BER-046","n":"Fullers London Pride Ale"},{"c":"CC-BER-047","n":"Gamle Carlsberg Man With Beer"},{"c":"CC-BER-048","n":"George Killians Irish Red"},{"c":"CC-BER-049","n":"Go For A Double Major"},{"c":"CC-BER-050","n":"Grolsch Beer Bottle"},{"c":"CC-BER-051","n":"Guinness Extra Stout Pin-Up"},{"c":"CC-BER-052","n":"Guinness Extra Stout Pin-Up Girl"},{"c":"CC-BER-053","n":"Guinness For Strength"},{"c":"CC-BER-054","n":"Guinness Special Export Pin-Up"},{"c":"CC-BER-055","n":"Hamms Sky Blue Waters"},{"c":"CC-BER-056","n":"Heineken Bier Waiter"},{"c":"CC-BER-057","n":"Heineken Pilsener Premium Qua\u2026"},{"c":"CC-BER-058","n":"Heineken The World Is Experien\u2026"},{"c":"CC-BER-059","n":"Heinekens Bier Het Meest Getapt"},{"c":"CC-BER-060","n":"Hoegaarden Beer Glass"},{"c":"CC-BER-061","n":"How To Toast Around The World"},{"c":"CC-BER-062","n":"Ice Cold Beer Free Next Door"},{"c":"CC-BER-063","n":"Ice Cold Beer Now Available"},{"c":"CC-BER-064","n":"Ice Cold Beer On Tap"},{"c":"CC-BER-065","n":"Ice Cold Beer Premium Lager"},{"c":"CC-BER-066","n":"Ice Cold Beer Sold Here"},{"c":"CC-BER-067","n":"Ice Cold Budweiser Served Here"},{"c":"CC-BER-068","n":"Ice Cold Coors Light"},{"c":"CC-BER-069","n":"Ice Cold Pabst Blue Ribbon"},{"c":"CC-BER-070","n":"Ice Cold Strongbow Served Here"},{"c":"CC-BER-071","n":"Kopparberg Cider Pin-Up"},{"c":"CC-BER-072","n":"Kopparberg Premium Cider Ras\u2026"},{"c":"CC-BER-073","n":"Kostritzer Beer Sign"},{"c":"CC-BER-074","n":"Kronenbourg 1664 Blanc"},{"c":"CC-BER-075","n":"Kronenbourg 1664 Pin-Up"},{"c":"CC-BER-076","n":"Learn To Speak Beer Fluidly"},{"c":"CC-BER-077","n":"Miller Genuine Draft Bottle"},{"c":"CC-BER-078","n":"Miller Genuine Draft Bottle Spla\u2026"},{"c":"CC-BER-079","n":"Miller Genuine Draft Sign"},{"c":"CC-BER-080","n":"Miller Genuine Draft Splash"},{"c":"CC-BER-081","n":"Miller Genuine Draft Wheat"},{"c":"CC-BER-082","n":"Miller Lite Fine Pilsner Beer"},{"c":"CC-BER-083","n":"Miller Lite Sink Your Fangs"},{"c":"CC-BER-084","n":"Modelo Dos Equis Corona"},{"c":"CC-BER-085","n":"Moosehead Lager Since 1867"},{"c":"CC-BER-086","n":"My Bucket List Ice Beer"},{"c":"CC-BER-087","n":"Old Speckled Hen Fine Ale"},{"c":"CC-BER-088","n":"Old Speckled Hen Pin-Up"},{"c":"CC-BER-089","n":"Original Budweiser St Louis"},{"c":"CC-BER-090","n":"Orval Beer Glass And Bottle"},{"c":"CC-BER-091","n":"Orval Bottle And Glass"},{"c":"CC-BER-092","n":"Pabst Blue Ribbon Beer"},{"c":"CC-BER-093","n":"Pabst Blue Ribbon Beer Blue"},{"c":"CC-BER-094","n":"Pabst Blue Ribbon Original 1844"},{"c":"CC-BER-095","n":"Pabst Blue Ribbon Rainbow"},{"c":"CC-BER-096","n":"Pabst Every Beers A Cheers"},{"c":"CC-BER-097","n":"Pale Ale Beer Guide"},{"c":"CC-BER-098","n":"Peroni Nastro Azzurro Pin-Up"},{"c":"CC-BER-099","n":"Porter Beer Guide"},{"c":"CC-BER-100","n":"Premium Beer Served Here"},{"c":"CC-BER-101","n":"San Miguel Beer Bottles"},{"c":"CC-BER-102","n":"San Miguel Pale Pilsen Pin-Up"},{"c":"CC-BER-103","n":"Schlitz Kiss Of The Hops"},{"c":"CC-BER-104","n":"Schlitz Non Alcoholic Beer"},{"c":"CC-BER-105","n":"Stella Artois Geen Twijfel"},{"c":"CC-BER-106","n":"Stella Artois Het Bier"},{"c":"CC-BER-107","n":"Tennents Lager Dogs"},{"c":"CC-BER-108","n":"The New Budweiser"},{"c":"CC-BER-109","n":"The Summer Of Good Vibes"},{"c":"CC-BER-110","n":"Todays Soup Is Beer"},{"c":"CC-BER-111","n":"Types Of Ale Beer"},{"c":"CC-BER-112","n":"Types Of Beer Chart"},{"c":"CC-BER-113","n":"Types Of Beer Lagers"},{"c":"CC-BER-114","n":"Vedett Extra White Beer"},{"c":"CC-BER-115","n":"XXXX The Popular Beer"}]},{"k":"LIQ","name":"Spirits & Cocktails","items":[{"c":"CC-LIQ-001","n":"Amaretto Sour Cocktail"},{"c":"CC-LIQ-002","n":"Bloody Mary Cocktail Board"},{"c":"CC-LIQ-003","n":"Bloody Mary Equipment Card"},{"c":"CC-LIQ-004","n":"Blue Sky Bar Cosmopolitan"},{"c":"CC-LIQ-005","n":"Brandy Alexander Cocktail"},{"c":"CC-LIQ-006","n":"Bundaberg Rum"},{"c":"CC-LIQ-007","n":"Classic Cocktail Recipes"},{"c":"CC-LIQ-008","n":"Cosmopolitan Cocktail Board"},{"c":"CC-LIQ-009","n":"Cosmopolitan Equipment Card"},{"c":"CC-LIQ-010","n":"Cowboy Jack's Whiskey"},{"c":"CC-LIQ-011","n":"Craft Cocktails Recipes Calendar"},{"c":"CC-LIQ-012","n":"Cuba Libre Cocktail Recipe"},{"c":"CC-LIQ-013","n":"Daiquiri Cocktail Recipe"},{"c":"CC-LIQ-014","n":"French Martini Cocktail"},{"c":"CC-LIQ-015","n":"Gin And Tonic Recipe"},{"c":"CC-LIQ-016","n":"Gin Fizz Cocktail Recipe"},{"c":"CC-LIQ-017","n":"Gin Martini Cocktail Recipe"},{"c":"CC-LIQ-018","n":"Grasshopper Cocktail Recipe"},{"c":"CC-LIQ-019","n":"Havana Club Rum"},{"c":"CC-LIQ-020","n":"Jim Beam Black Bourbon Whiskey"},{"c":"CC-LIQ-021","n":"Jim Beam Double Oak"},{"c":"CC-LIQ-022","n":"Kraken Perfect Storm Recipe"},{"c":"CC-LIQ-023","n":"Leblon Caipirinha Recipe"},{"c":"CC-LIQ-024","n":"Long Island Iced Tea"},{"c":"CC-LIQ-025","n":"Mai Tai Bacardi Recipe"},{"c":"CC-LIQ-026","n":"Mai Tai Tiki Recipe"},{"c":"CC-LIQ-027","n":"Manhattan Cocktail Card"},{"c":"CC-LIQ-028","n":"Manhattan Cocktail Recipe"},{"c":"CC-LIQ-029","n":"Margarita Cocktail Chalkboard"},{"c":"CC-LIQ-030","n":"Margarita Cocktail Recipe"},{"c":"CC-LIQ-031","n":"Margarita Equipment Ingredients"},{"c":"CC-LIQ-032","n":"Martini Prosecco Sparkling Wine"},{"c":"CC-LIQ-033","n":"Martini Vermouth Bottle Advert"},{"c":"CC-LIQ-034","n":"Mint Julep Cocktail Recipe"},{"c":"CC-LIQ-035","n":"Mojito Cocktail Ingredients"},{"c":"CC-LIQ-036","n":"Mojito Cocktail Recipe"},{"c":"CC-LIQ-037","n":"Moscow Mule Cocktail"},{"c":"CC-LIQ-038","n":"Negroni Cocktail Recipe"},{"c":"CC-LIQ-039","n":"Old Cuban Cocktail"},{"c":"CC-LIQ-040","n":"Paloma Cocktail Recipe"},{"c":"CC-LIQ-041","n":"Peach Bellini Recipe"},{"c":"CC-LIQ-042","n":"Pernod 51 Pastis"},{"c":"CC-LIQ-043","n":"Pimm's Cup Cocktail"},{"c":"CC-LIQ-044","n":"Pimms The Original No1 Cup"},{"c":"CC-LIQ-045","n":"Pina Colada Cocktail"},{"c":"CC-LIQ-046","n":"Pisco Sour Cocktail"},{"c":"CC-LIQ-047","n":"Ricard 5 Volumes D'Eau"},{"c":"CC-LIQ-048","n":"Ricard 5 Volumes D'Eau Green"},{"c":"CC-LIQ-049","n":"Ricard Anisette Liqueur"},{"c":"CC-LIQ-050","n":"Ricard Cinq Volumes D'Eau"},{"c":"CC-LIQ-051","n":"Ricard Le Vrai Pastis Marseille"},{"c":"CC-LIQ-052","n":"Ricard Pastis De Marseille"},{"c":"CC-LIQ-053","n":"Ricard Paul Provence"},{"c":"CC-LIQ-054","n":"Sangria Recipe"},{"c":"CC-LIQ-055","n":"Side Car Cocktail Recipe"},{"c":"CC-LIQ-056","n":"Tom Collins Cocktail"},{"c":"CC-LIQ-057","n":"When Life Hands You Lemons"},{"c":"CC-LIQ-058","n":"Whiskey Sour Cocktail"},{"c":"CC-LIQ-059","n":"White Russian Cocktail"},{"c":"CC-LIQ-060","n":"Zombie Cocktail Recipe"}]},{"k":"COK","name":"Coca-Cola & Soft Drinks","items":[{"c":"CC-COK-001","n":"Canada Dry Beverages"},{"c":"CC-COK-002","n":"Coca-Cola Through A Straw"},{"c":"CC-COK-003","n":"Ice Cold Coca-Cola Sold Here"},{"c":"CC-COK-004","n":"Red Rock Cola Babe Ruth"},{"c":"CC-COK-005","n":"Root Beer Floats"},{"c":"CC-COK-006","n":"Things Go Better With Coke"}]},{"k":"PIN","name":"Pin-Up & Humour","items":[{"c":"CC-PIN-001","n":"Bikini Pin-Up With Telescope"},{"c":"CC-PIN-002","n":"Bowl Strike Pin-Up Girl"},{"c":"CC-PIN-003","n":"Damn Right Im Good In Bed"},{"c":"CC-PIN-004","n":"Do I Look Like I Care"},{"c":"CC-PIN-005","n":"Fighter Plane Pin-Up Girl"},{"c":"CC-PIN-006","n":"I Always Cook With Wine"},{"c":"CC-PIN-007","n":"I Love Cooking With Wine"},{"c":"CC-PIN-008","n":"Ill Give Em Hell"},{"c":"CC-PIN-009","n":"Miss Tabithas Burlesque Parlor"},{"c":"CC-PIN-010","n":"Pin-Up Girl Changing Tyre"},{"c":"CC-PIN-011","n":"Reard Le Premier Maillot De Bain"},{"c":"CC-PIN-012","n":"We Used To Drink Before Dinner"}]},{"k":"MUS","name":"Music & Bands","items":[{"c":"CC-MUS-001","n":"AC/DC In Concert"},{"c":"CC-MUS-002","n":"Eric Clapton Carnegie Hall 1988"},{"c":"CC-MUS-003","n":"Iggy And The Stooges"},{"c":"CC-MUS-004","n":"James Brown Paramount Theatre"},{"c":"CC-MUS-005","n":"Michael Schenker Group Tokyo"},{"c":"CC-MUS-006","n":"Miles Davis Fillmore West"},{"c":"CC-MUS-007","n":"Motorhead Biesenthal 1999"},{"c":"CC-MUS-008","n":"Motorhead England"},{"c":"CC-MUS-009","n":"Ramones End Of The Century"},{"c":"CC-MUS-010","n":"Ramones Exit-In Concert"},{"c":"CC-MUS-011","n":"Rock Star"},{"c":"CC-MUS-012","n":"The Clash Montego Bay 1982"},{"c":"CC-MUS-013","n":"The Who Boston Garden 1973"}]},{"k":"KIT","name":"Kitchen & Recipes","items":[{"c":"CC-KIT-001","n":"Chocolate Chip Cookies Recipe"},{"c":"CC-KIT-002","n":"Coffee Sleep When Youre Dead"},{"c":"CC-KIT-003","n":"French Fries Recipe"},{"c":"CC-KIT-004","n":"Giant Milk Shake"},{"c":"CC-KIT-005","n":"Gingerbread Cookies Recipe"},{"c":"CC-KIT-006","n":"Hamburger For Two Recipe"},{"c":"CC-KIT-007","n":"Its Always Tea Time"},{"c":"CC-KIT-008","n":"Pesto Recipe"},{"c":"CC-KIT-009","n":"Spaghetti Recipe"},{"c":"CC-KIT-010","n":"Steak Recipe"},{"c":"CC-KIT-011","n":"Stuffed Peppers Recipe"}]},{"k":"LIF","name":"Lifestyle & Americana","items":[{"c":"CC-LIF-001","n":"Apollo 11 Golden Anniversary"},{"c":"CC-LIF-002","n":"Gone With The Wind"},{"c":"CC-LIF-003","n":"Muhammad Ali Vs Sonny Liston"},{"c":"CC-LIF-004","n":"Statue Of Liberty Postcard"}]}];
+const LOGO = "data:image/webp;base64,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";
+const PAGE = 60;                      // plates rendered per batch
+
+const cart = new Map();
+const byCode = new Map();
+CATS.forEach(c => c.items.forEach(i => byCode.set(i.c, Object.assign({cat:c.name, k:c.k}, i))));
+const ALL = [...byCode.values()];
+
+const $ = s => document.querySelector(s);
+const el = (t,cls,html)=>{const e=document.createElement(t); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e;};
+const esc = s => String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const zar = n => BRAND.currency + n.toLocaleString("en-ZA");
+
+let view = { key: CATS[0].k, filter:"", shown: PAGE, hideSold:false };
+const isSold = c => BRAND.soldOut.includes(c);
+
+/* ---------- brand ---------- */
+$("#logo").src = LOGO;
+$("#pill").textContent = "Every plate " + zar(BRAND.price);
+$("#sCount").textContent = ALL.length + " designs · " + CATS.length + " categories"
+  + (BRAND.soldOut.length ? " · " + BRAND.soldOut.length + " sold, pre-order open" : "");
+$("#sDel").textContent = BRAND.deliveryTime + " · " + zar(BRAND.delivery) + " flat";
+$("#panNote").textContent = BRAND.footnote;
+if(!(BRAND.delivery > 0)) $("#panDelRow").hidden = true;
+
+function telDisplay(raw){
+  const d = String(raw).replace(/\D/g,"");
+  const m = d.match(/^27(\d{2})(\d{3})(\d{4})$/);
+  return m ? "+27 " + m[1] + " " + m[2] + " " + m[3] : "+" + d;
+}
+$("#payLead").textContent = "Open your banking app, choose PayShap and enter the number below, or do a normal EFT. Use your order reference so we can match the payment.";
+$("#payShap").textContent = BRAND.payShap;
+$("#payBank").textContent = BRAND.bankName;
+$("#payAcc").textContent  = BRAND.bankAcc;
+$("#payBr").textContent   = BRAND.bankBr;
+$("#payFoot").textContent = "Account holder: " + BRAND.legal
+  + ". Send proof of payment on WhatsApp and we confirm dispatch.";
+const hasYoco = /^https?:\/\//.test(BRAND.yoco || "");
+if(hasYoco){
+  $("#payYoco").textContent = BRAND.yoco.replace(/^https?:\/\//,"");
+  const yocoMismatch = (BRAND.yocoName || "").trim().toLowerCase() !== BRAND.name.trim().toLowerCase();
+  $("#cardNote").textContent = "Secure card payment by Yoco. The amount and your reference are filled in for you"
+    + (yocoMismatch ? " — the page shows " + BRAND.yocoName + ", which is us." : " — you only add your name.");
+}else{
+  $("#bYoco").hidden = true; $("#rowYoco").hidden = true; $("#cardNote").hidden = true;
+}
+function yocoURL(){
+  const {v} = totals();
+  return BRAND.yoco + "?amount=" + v.toFixed(2) + "&reference=" + encodeURIComponent(ref());
+}
+
+/* ---------- tabs ---------- */
+const tabs = $("#tabs");
+CATS.forEach(c=>{
+  const b = el("button", null, esc(c.name)+" <i>"+c.items.length+"</i>");
+  b.dataset.k = c.k;
+  b.onclick = ()=>{
+    $("#q").value=""; $("#srchWrap").classList.remove("has");
+    view = { key:c.k, filter:"", shown:PAGE };
+    draw(); window.scrollTo({top:0,behavior:"smooth"});
+  };
+  tabs.appendChild(b);
+});
+
+/* ---------- list ---------- */
+function pool(){
+  const f = view.filter.trim().toLowerCase();
+  let list = f ? ALL.filter(i => (i.n+" "+i.c+" "+i.cat).toLowerCase().includes(f))
+               : CATS.find(c=>c.k===view.key).items.map(i=>byCode.get(i.c));
+  if(view.hideSold) list = list.filter(i => !isSold(i.c));
+  return list;
+}
+
+function draw(){
+  const list = pool();
+  const cat  = CATS.find(c=>c.k===view.key);
+  [...tabs.children].forEach(b=>b.classList.toggle("on", !view.filter && b.dataset.k===view.key));
+
+  $("#catName").textContent  = view.filter ? "Search results" : cat.name;
+  $("#catCount").textContent = list.length + (list.length===1?" plate":" plates")
+                             + " · " + zar(BRAND.price) + " each";
+
+  const slice = list.slice(0, view.shown);
+  const g = $("#grid");
+  g.innerHTML = "";
+  const frag = document.createDocumentFragment();
+  slice.forEach(it=>{
+    const q = cart.get(it.c) || 0;
+    const out = isSold(it.c);
+    const d = el("div","p"+(q?" on":"")+(out?" sold":""));
+    d.dataset.c = it.c;
+    d.innerHTML =
+      '<div class="im" data-zoom><img loading="lazy" decoding="async" src="img/'+it.c+'.webp" alt="'+esc(it.n)+'">'+
+        (out ? '<span class="sold-band">Sold</span>' : '')+
+        '<span class="qb">'+q+'</span></div>'+
+      '<div class="tx">'+
+        '<div class="nm">'+esc(it.n)+'</div>'+
+        '<div class="cd">'+esc(it.c)+(out?' <span class="po">Pre-order</span>':'')+'</div>'+
+        '<div class="row"><span class="pr">'+zar(BRAND.price)+'</span>'+
+          '<div class="stp">'+
+            '<button data-a="-" aria-label="Remove one '+esc(it.n)+'">−</button>'+
+            '<input type="number" min="0" max="99" value="'+q+'" inputmode="numeric" aria-label="Quantity of '+esc(it.n)+'">'+
+            '<button data-a="+" aria-label="Add one '+esc(it.n)+'">+</button>'+
+          '</div>'+
+        '</div></div>';
+    frag.appendChild(d);
+  });
+  g.querySelectorAll("img").forEach(im=>{
+    im.onerror = ()=>{ im.style.display="none";
+      im.parentNode.insertAdjacentHTML("beforeend",
+        '<span class="cd" style="position:absolute;inset:0;display:flex;align-items:center;'+
+        'justify-content:center;text-align:center;padding:8px">'+esc(im.alt)+'</span>'); };
+  });
+  g.appendChild(frag);
+
+  const rest = list.length - slice.length;
+  const mb = $("#more");
+  mb.hidden = rest <= 0;
+  mb.textContent = rest > 0 ? "Show " + Math.min(rest, PAGE) + " more of " + rest : "";
+  $("#empty").hidden = list.length > 0;
+}
+$("#more").onclick = ()=>{ view.shown += PAGE; draw(); };
+$("#hideSold").onchange = e=>{ view.hideSold = e.target.checked; view.shown = PAGE; draw(); };
+
+/* ---------- interaction ---------- */
+$("#grid").addEventListener("click", e=>{
+  const card = e.target.closest(".p"); if(!card) return;
+  const code = card.dataset.c;
+  const b = e.target.closest(".stp button");
+  if(b){
+    const inp = card.querySelector(".stp input");
+    setQty(code, (parseInt(inp.value)||0) + (b.dataset.a === "+" ? 1 : -1));
+    return;
+  }
+  if(e.target.closest("[data-zoom]")) zoom(code);
+});
+$("#grid").addEventListener("input", e=>{
+  if(e.target.matches(".stp input"))
+    setQty(e.target.closest(".p").dataset.c, parseInt(e.target.value)||0, true);
+});
+$("#grid").addEventListener("focusout", e=>{
+  if(e.target.matches(".stp input"))
+    e.target.value = cart.get(e.target.closest(".p").dataset.c) || 0;
+});
+
+function setQty(code, q, fromInput){
+  q = Math.max(0, Math.min(99, Math.floor(q)||0));
+  q ? cart.set(code,q) : cart.delete(code);
+  const card = document.querySelector('.p[data-c="'+code+'"]');
+  if(card){
+    card.classList.toggle("on", q>0);
+    const badge = card.querySelector(".qb"); if(badge) badge.textContent = q;
+    const inp = card.querySelector(".stp input");
+    if(inp && !fromInput) inp.value = q;
+  }
+  sync();
+}
+
+/* ---------- lightbox ---------- */
+let zoomCode = null;
+function zoom(code){
+  const it = byCode.get(code), out = isSold(code); zoomCode = code;
+  $("#lbI").src = "img/"+code+".webp"; $("#lbI").alt = it.n;
+  $("#lbN").textContent = it.n;
+  $("#lbC").textContent = it.c + " · " + it.cat;
+  $("#lbP").textContent = zar(BRAND.price);
+  $("#lbS").hidden = !out;
+  $("#lbA").textContent = out ? "Add as pre-order" : "Add to order";
+  $("#lb").classList.add("on");
+}
+function step(dir){
+  const list = pool().slice(0, view.shown);
+  const i = list.findIndex(x=>x.c===zoomCode);
+  if(i < 0) return;
+  const nx = list[(i + dir + list.length) % list.length];
+  if(nx) zoom(nx.c);
+}
+$("#lbPrev").onclick = e=>{ e.stopPropagation(); step(-1); };
+$("#lbNext").onclick = e=>{ e.stopPropagation(); step(1); };
+$("#lb").onclick = e=>{ if(!e.target.closest(".add") && !e.target.closest(".nav")) $("#lb").classList.remove("on"); };
+$("#lbA").onclick = e=>{
+  e.stopPropagation();
+  setQty(zoomCode, (cart.get(zoomCode)||0)+1);
+  toast(isSold(zoomCode) ? "Added as pre-order" : "Added");
+};
+addEventListener("keydown", e=>{
+  const open = $("#lb").classList.contains("on");
+  if(e.key==="Escape"){ $("#lb").classList.remove("on"); closePan(); }
+  if(open && e.key==="ArrowLeft")  step(-1);
+  if(open && e.key==="ArrowRight") step(1);
+});
+
+/* ---------- totals ---------- */
+function totals(){
+  let n=0, nPre=0;
+  cart.forEach((q,code)=>{ n+=q; if(isSold(code)) nPre+=q; });
+  const nStock = n - nPre;
+  const sub = nStock * BRAND.price;
+  const pre = nPre  * BRAND.price;
+  const fee = Number(BRAND.delivery) || 0;
+  const del = nStock === 0 ? 0 : fee;      // nothing ships yet on a pre-order-only basket
+  return {n, nStock, nPre, sub, pre, del, v: sub + del};
+}
+let currentRef = null;
+function ref(){
+  if(!currentRef){
+    const d = new Date(), p = x => String(x).padStart(2,"0");
+    currentRef = "CHEV-" + String(d.getFullYear()).slice(2) + p(d.getMonth()+1) + p(d.getDate())
+               + "-" + p(d.getHours()) + p(d.getMinutes());
+  }
+  return currentRef;
+}
+function sync(){
+  const {n,nStock,nPre,sub,pre,del,v} = totals();
+  const lines = $("#panLines"); lines.innerHTML = "";
+  cart.forEach((q,code)=>{
+    const it = byCode.get(code);
+    const ln = el("div","ln");
+    ln.innerHTML =
+      '<span class="q">'+q+'×</span>'+
+      '<span class="x"><b>'+esc(it.n)+'</b><i>'+esc(it.c)+
+        (isSold(code)?' <span class="po">Pre-order</span>':'')+'</i></span>'+
+      '<span class="v">'+zar(q*BRAND.price)+'</span>'+
+      '<button class="rm" aria-label="Remove '+esc(it.n)+'">&times;</button>';
+    ln.querySelector(".rm").onclick = ()=> setQty(code,0);
+    lines.appendChild(ln);
+  });
+  $("#panNone").hidden  = n>0;
+  $("#panCount").textContent = n + (n===1?" plate":" plates")
+    + (nPre ? " · " + nPre + " pre-order" : "");
+  $("#panSub").textContent   = nStock ? zar(sub) : "—";
+  $("#panDel").textContent   = nStock ? zar(del) : "—";
+  $("#panPreRow").hidden     = nPre === 0;
+  $("#panPre").textContent   = zar(pre) + " — quoted later";
+  $("#panTotal").textContent = zar(v);
+  $("#mCount").textContent   = n + (n===1?" plate":" plates");
+  $("#mTotal").textContent   = zar(v);
+  $("#payRef").textContent   = ref();
+  $("#payAmt").textContent   = n ? zar(v) : "—";
+  // the row displays the short URL, but Copy hands over the fully pre-filled one
+  if(hasYoco) $("#payYoco").dataset.full = v > 0 ? yocoURL() : "";
+  ["#bWa","#bCopy","#bClr","#mOpen"].forEach(s=>{ $(s).disabled = n===0; });
+  $("#bYoco").disabled = !(v > 0);
+  if(n===0) closePan();
+}
+
+/* ---------- order text ---------- */
+function orderText(){
+  const {n,nStock,nPre,sub,pre,del,v} = totals();
+  const name = $("#cName").value.trim(), tel = $("#cTel").value.trim(), note = $("#cNote").value.trim();
+  let t = BRAND.name + " — New Order\nRef: " + ref() + "\n";
+  if(name) t += "Name: " + name + "\n";
+  if(tel)  t += "Contact: " + tel + "\n";
+  const inStock = [], preOrd = [];
+  cart.forEach((q,code)=>{
+    const it = byCode.get(code);
+    (isSold(code) ? preOrd : inStock).push(q + " x " + code + " — " + it.n + " — " + zar(q*BRAND.price));
+  });
+  if(inStock.length) t += "IN STOCK\n" + inStock.join("\n") + "\n";
+  if(preOrd.length)  t += (inStock.length?"\n":"") + "PRE-ORDER (not charged yet)\n" + preOrd.join("\n") + "\n";
+  t += "\n";
+  if(nStock){
+    t += nStock + (nStock===1?" plate":" plates") + " in stock\n";
+    t += "Plates: " + zar(sub) + "\n";
+    if(del) t += "Delivery: " + zar(del) + "\n";
+    t += "TO PAY NOW: " + zar(v) + "\n";
+  } else {
+    t += "Nothing to pay yet — this order is pre-order only.\n";
+  }
+  if(nPre) t += "\nPre-order: " + nPre + (nPre===1?" plate":" plates") + " (" + zar(pre)
+              + ") — please confirm when back in stock.\n";
+  if(note) t += "\nDeliver to: " + note + "\n";
+  if(nStock){
+    t += "\nPay by PayShap to " + BRAND.payShap + ", reference " + ref() + ".";
+    if(hasYoco) t += "\nOr pay by card here: " + yocoURL();
+  }
+  return t;
+}
+
+/* ---------- clipboard ---------- */
+async function copyText(txt, okMsg){
+  try{ await navigator.clipboard.writeText(txt); toast(okMsg); }
+  catch(_){
+    const ta = el("textarea"); ta.value = txt;
+    ta.style.cssText="position:fixed;top:0;left:0;opacity:0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    let ok=false; try{ ok=document.execCommand("copy"); }catch(_){}
+    ta.remove(); toast(ok?okMsg:"Copy failed — use WhatsApp instead");
+  }
+}
+document.querySelectorAll(".cp").forEach(btn=>{
+  btn.onclick = ()=>{
+    const node = $("#"+btn.dataset.cp);
+    const src  = ("full" in node.dataset ? node.dataset.full : node.textContent).trim();
+    if(!src || src==="—"){
+      toast(cart.size ? "Pre-orders are not charged yet" : "Add plates first"); return;
+    }
+    copyText(src, "Copied");
+    btn.classList.add("done"); btn.textContent="Copied";
+    setTimeout(()=>{ btn.classList.remove("done"); btn.textContent="Copy"; }, 1600);
+  };
+});
+$("#bYoco").onclick = ()=>{
+  const {v} = totals();
+  if(!(v > 0)){ toast("Pre-orders are not charged yet"); return; }
+  window.open(yocoURL(), "_blank");
+};
+$("#bWa").onclick = ()=>{
+  const num = BRAND.whatsapp.replace(/\D/g,"");
+  window.open("https://wa.me/" + (num.length>=8?num:"") + "?text=" + encodeURIComponent(orderText()), "_blank");
+};
+$("#bCopy").onclick = ()=> copyText(orderText(), "Order copied");
+$("#bClr").onclick = ()=>{
+  if(!cart.size) return;
+  cart.clear(); currentRef = null;
+  document.querySelectorAll(".p.on").forEach(c=>{
+    c.classList.remove("on");
+    const i=c.querySelector(".stp input"); if(i) i.value=0;
+  });
+  sync(); toast("Order cleared");
+};
+
+/* ---------- search ---------- */
+const q = $("#q");
+let tq;
+q.addEventListener("input", ()=>{
+  $("#srchWrap").classList.toggle("has", q.value.length>0);
+  clearTimeout(tq);
+  tq = setTimeout(()=>{ view.filter = q.value; view.shown = PAGE; draw(); }, 120);
+});
+$("#qClr").onclick = ()=>{ q.value=""; $("#srchWrap").classList.remove("has");
+  view.filter=""; view.shown=PAGE; draw(); q.focus(); };
+
+/* ---------- drawer ---------- */
+const pan = $("#pan"), scrim = $("#scrim");
+function openPan(){ pan.classList.add("open"); scrim.classList.add("on"); }
+function closePan(){ pan.classList.remove("open"); scrim.classList.remove("on"); }
+$("#mOpen").onclick = openPan;
+$("#panHead").onclick = ()=>{ if(window.matchMedia("(max-width:960px)").matches) closePan(); };
+scrim.onclick = closePan;
+
+let tt;
+function toast(m){
+  const t=$("#tst"); t.textContent=m; t.classList.add("on");
+  clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("on"), 2200);
+}
+
+draw(); sync();
+</script>
+</body>
+</html>
