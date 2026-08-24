@@ -187,6 +187,18 @@ committed alongside it, at which point the workflow picks them up too.
 
 ---
 
+## Volume pricing (added 16 Aug 2026)
+
+R99 each, R89 from 5, R79 from 10, R75 from 20 — the floor. Set by the **total plates in the
+order across designs**: stock runs 1–3 a design, so a per-design threshold could never be met,
+and a total-basket threshold pushes order size rather than depth. Pre-orders count toward the
+tier, because the order ships complete and is therefore priced as one order.
+
+The panel names the rate and the saving, and nudges with the exact number of plates needed for
+the next tier. Every price surface — masthead, card prices, category header, lightbox, panel,
+WhatsApp message and footnote — is generated from the `tiers` array, so editing a tier cannot
+leave a stale R99 anywhere.
+
 ## Suggested order of work
 
 | # | Action | Cost | Blocking a real order? |

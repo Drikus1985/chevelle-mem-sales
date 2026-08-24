@@ -3,7 +3,7 @@
 **Live:** https://club-chevelle.netlify.app
 **Source:** `site/` in this repository — `index.html` plus `img/`, 559 files.
 
-558 vintage metal wall plates, every one R99, built from the 53-page PDF catalogue.
+558 vintage metal wall plates from R99, dropping to R75, built from the 53-page PDF catalogue.
 
 ---
 
@@ -31,7 +31,9 @@ Only 60 plates render at a time, so the page opens on about 576 KB rather than t
 
 ## Commercial rules
 
-- **Every plate R99**, flat.
+- **Volume pricing.** R99 each, R89 from 5 plates, R79 from 10, R75 from 20. The tier is set
+  by the **total plates in the order across designs**, not per design — stock runs 1–3 a design,
+  so nobody can buy 10 of one. R75 is the floor.
 - **Delivery R99 flat per order**, anywhere in South Africa. Confirmed 9 August 2026.
 - **Delivery time 3–5 working days.**
 - **One delivery fee per order, never two.** Sold plates stay visible under a semi-transparent
@@ -110,6 +112,9 @@ and the trading name it displays, PayShap and bank details, `captureOrders`, the
 - **Marking a plate sold:** add its code to `soldOut`, e.g. `soldOut: ["CC-CAR-014"]`. The SOLD
   banner, the pre-order tag, the totals split, the held-shipment note and the WhatsApp message
   all follow automatically. Setting a code's `stock` to 0 does exactly the same thing.
+- **Pricing tiers:** edit the `tiers` array, lowest `min` first. The masthead, the per-plate
+  price on every card, the order panel, the nudge and the footnote are all generated from it,
+  so changing a tier can never leave a stale price anywhere on the page.
 - **Stock levels:** stock runs 1–3 per plate, so the basket is capped at what is on hand.
   `defaultStock` applies to every code not listed in `stock`, and is **3** — the top of that
   range. Any plate you hold fewer of therefore needs its own entry, `stock: { "CC-CAR-014": 1 }`,
