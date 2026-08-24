@@ -61,6 +61,39 @@ ok('a sold-out plate can still be pre-ordered', await page.evaluate(() => {
   setQty('CC-CAR-004', 1); return cart.get('CC-CAR-004'); }) === 1);
 await page.evaluate(() => { cart.clear(); BRAND.stock = {}; currentRef = null; sync(); });
 
+console.log('\nVolume pricing');
+await page.evaluate(() => { cart.clear(); BRAND.stock = { 'CC-CAR-001': 99 }; currentRef = null; sync(); });
+ok('1-4 plates bill at R99',  await page.evaluate(()=>unitPrice(4))===99);
+ok('5 plates unlock R89',     await page.evaluate(()=>unitPrice(5))===89);
+ok('10 plates unlock R79',    await page.evaluate(()=>unitPrice(10))===79);
+ok('20 plates hit the R75 floor', await page.evaluate(()=>unitPrice(20))===75);
+ok('nothing prices below R75', await page.evaluate(()=>unitPrice(5000))===75);
+await add('CC-CAR-001', 10);
+let vt = await T();
+ok('10 plates = R790 + R99 = R889', vt.unit===79 && vt.sub===790 && vt.v===889, JSON.stringify(vt));
+ok('saving reported correctly', vt.saved===200, 'saved=' + vt.saved);
+ok('panel names the rate', /R79/.test(await page.$eval('#panTier', n=>n.textContent)));
+await add('CC-CAR-001', 8);
+ok('nudge names the next tier and the gap', await page.$eval('#panTierNote', n =>
+  !n.hidden && /add 2 more/i.test(n.textContent) && /R79/.test(n.textContent)),
+  await page.$eval('#panTierNote', n=>n.textContent));
+await add('CC-CAR-001', 20);
+ok('top tier says best price reached', /best price reached/i.test(await page.$eval('#panTierNote', n=>n.textContent)));
+ok('WhatsApp message states the volume rate',
+  /Volume price: R75 a plate on 20 plates/.test(await page.evaluate(()=>orderText())));
+// the tier counts pre-orders too: the order ships complete, so it is priced as one order
+await page.evaluate(() => { cart.clear(); BRAND.soldOut = ['CC-CAR-002']; BRAND.stock = { 'CC-CAR-001': 99, 'CC-CAR-002': 99 }; sync(); });
+await add('CC-CAR-001', 3); await add('CC-CAR-002', 2);
+vt = await T();
+ok('pre-orders count toward the tier', vt.n===5 && vt.unit===89, JSON.stringify(vt));
+// The customer-facing copy must be generated, so editing tiers cannot leave a stale price.
+const foot = await page.$eval('#panNote', n => n.textContent);
+ok('footnote lists the tiers, not a flat price',
+  /R99 each, R89 from 5, R79 from 10 and R75 from 20/.test(foot) && !/Every plate is R99/.test(foot), foot.slice(0,90));
+ok('masthead advertises the floor price',
+  /from R75/.test(await page.$eval('#pill', n => n.textContent)));
+await page.evaluate(() => { cart.clear(); BRAND.soldOut = []; BRAND.stock = {}; currentRef = null; sync(); });
+
 console.log('\nTotals (documented behaviour, must not regress)');
 // These assert the money, not the cap, so give the test plates headroom.
 await page.evaluate(() => { BRAND.stock = { 'CC-CAR-001': 9, 'CC-CAR-002': 9 }; });

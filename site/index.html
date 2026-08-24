@@ -204,6 +204,9 @@ button,input{font:inherit;color:inherit}
 .cp.done{background:var(--ok);color:#fff;border-color:var(--ok)}
 .payfoot{font-size:11px;color:var(--ink3);line-height:1.5;margin-top:9px}
 .note{font-size:11px;color:var(--ink3);padding:0 15px 15px;line-height:1.5}
+.tiernote{margin:0 15px 10px;padding:9px 11px;border-left:3px solid var(--ok);
+  background:rgba(26,127,75,.09);font-size:11.5px;line-height:1.5;color:var(--ink2)}
+.tiernote.next{border-left-color:var(--hot);background:var(--hot-l)}
 .shipnote{margin:0 15px 12px;padding:9px 11px;border-left:3px solid var(--gold);background:rgba(217,164,65,.1);
   font-size:11.5px;line-height:1.5;color:var(--ink2)}
 
@@ -282,11 +285,13 @@ button,input{font:inherit;color:inherit}
     <div class="none" id="panNone">No plates selected yet.<br>Tap a plate to add it.</div>
     <div class="lines" id="panLines"></div>
     <div class="sum">
+      <div class="sr" id="panTierRow" hidden><span id="panTierK">Price each</span><span id="panTier">—</span></div>
       <div class="sr"><span>Plates</span><span id="panSub">—</span></div>
       <div class="sr" id="panDelRow"><span>Delivery</span><span id="panDel">—</span></div>
       <div class="sr" id="panPreRow" hidden><span style="color:var(--gold)">Pre-order</span><span id="panPre" style="color:var(--gold)">—</span></div>
     </div>
     <div class="tot"><small>Total</small><b id="panTotal">R0</b></div>
+    <p class="tiernote" id="panTierNote" hidden></p>
     <p class="shipnote" id="panShip" hidden></p>
     <div class="fld">
       <input id="cName" placeholder="Your name" autocomplete="name">
@@ -356,7 +361,17 @@ const BRAND = {
   legal:    "Get Buzzed (Pty) Ltd t/a Club Chevelle",
   whatsapp: "27649437890",            // 064 943 7890, international format
   currency: "R",
-  price:    99,                       // every plate is R99
+  price:    99,                       // list price per plate, before any volume tier
+
+  // Volume pricing. The tier is set by the TOTAL number of plates in the order across
+  // designs, not per design — stock runs 1-3 a design, so nobody can ever buy 10 of one.
+  // Tiers must be listed lowest "min" first. R75 is the floor.
+  tiers: [
+    { min: 1,  price: 99 },
+    { min: 5,  price: 89 },
+    { min: 10, price: 79 },
+    { min: 20, price: 75 }
+  ],
   delivery: 99,                       // flat courier fee per order. Set to 0 to remove the line.
   deliveryTime: "3–5 working days",
 
@@ -386,7 +401,7 @@ const BRAND = {
   // Orders land under Forms → orders in the Netlify dashboard. Set false to switch off.
   captureOrders: true,
 
-  footnote: "Every plate is R99. A flat R99 courier fee applies per order, anywhere in South Africa — one fee per order, never two. Plates marked SOLD can still be added as a pre-order — you are not charged for those until they are back in stock and you confirm. Sending an order does not charge you."
+  footnote: "A flat R99 courier fee applies per order, anywhere in South Africa — one fee per order, never two. Plates marked SOLD can still be added as a pre-order — you are not charged for those until they are back in stock and you confirm. Sending an order does not charge you."
 };
 /* ══════════════════════════════════════════════════════════════ */
 
@@ -410,6 +425,21 @@ let view = { key: CATS[0].k, filter:"", shown: PAGE, hideSold:false };
 const onHand = c => BRAND.soldOut.includes(c) ? 0
   : Math.max(0, Math.floor(Number(BRAND.stock?.[c] ?? BRAND.defaultStock)) || 0);
 const isSold = c => onHand(c) === 0;
+
+/* ---------- volume pricing ----------
+   The tier is set by the total plate count across the whole order, including
+   pre-orders: the order ships complete, so it is priced as one order. */
+const TIERS = (BRAND.tiers && BRAND.tiers.length ? BRAND.tiers : [{min:1, price:BRAND.price}])
+                .slice().sort((a,b)=> a.min - b.min);
+function unitPrice(n){
+  let p = TIERS[0].price;
+  for(const t of TIERS) if(n >= t.min) p = t.price;
+  return p;
+}
+// The next tier up, or null at the top. Used to nudge: "2 more to drop to R89 each".
+function nextTier(n){
+  return TIERS.find(t => t.min > n) || null;
+}
 // Basket ceiling. A sold plate is a pre-order, confirmed by hand before anything is
 // charged, so it takes the normal stocking level rather than 0.
 const maxQty = c => isSold(c) ? Math.max(1, Math.floor(Number(BRAND.defaultStock)) || 1) : onHand(c);
@@ -417,11 +447,22 @@ const soldCount = () => ALL.reduce((n,i) => n + (isSold(i.c) ? 1 : 0), 0);
 
 /* ---------- brand ---------- */
 $("#logo").src = LOGO;
-$("#pill").textContent = "Every plate " + zar(BRAND.price);
+$("#pill").textContent = TIERS.length > 1
+  ? "Plates from " + zar(TIERS[TIERS.length-1].price) + " — buy more, pay less"
+  : "Every plate " + zar(BRAND.price);
 $("#sCount").textContent = ALL.length + " designs · " + CATS.length + " categories"
   + (soldCount() ? " · " + soldCount() + " sold, pre-order open" : "");
 $("#sDel").textContent = BRAND.deliveryTime + " · " + zar(BRAND.delivery) + " flat";
-$("#panNote").textContent = BRAND.footnote;
+// Derived from TIERS, never hand-written: editing the tiers rewrites the customer copy.
+function tierSentence(){
+  if(TIERS.length < 2) return "Every plate is " + zar(BRAND.price) + ".";
+  const rest = TIERS.slice(1).map(t => zar(t.price) + " from " + t.min);
+  const last = rest.pop();
+  return "Plates are " + zar(TIERS[0].price) + " each, "
+       + (rest.length ? rest.join(", ") + " and " + last : last)
+       + " — the price applies to every plate in the order, mixed designs included.";
+}
+$("#panNote").textContent = tierSentence() + " " + BRAND.footnote;
 if(!(BRAND.delivery > 0)) $("#panDelRow").hidden = true;
 
 function telDisplay(raw){
@@ -479,7 +520,7 @@ function draw(){
 
   $("#catName").textContent  = view.filter ? "Search results" : cat.name;
   $("#catCount").textContent = list.length + (list.length===1?" plate":" plates")
-                             + " · " + zar(BRAND.price) + " each";
+                             + " · " + zar(totals().unit) + " each";
 
   const slice = list.slice(0, view.shown);
   const g = $("#grid");
@@ -569,7 +610,7 @@ function zoom(code){
   $("#lbI").src = "img/"+code+".webp"; $("#lbI").alt = it.n;
   $("#lbN").textContent = it.n;
   $("#lbC").textContent = it.c + " · " + it.cat;
-  $("#lbP").textContent = zar(BRAND.price);
+  $("#lbP").textContent = zar(totals().unit);
   $("#lbS").hidden = !out;
   $("#lbA").textContent = out ? "Add as pre-order" : "Add to order";
   $("#lb").classList.add("on");
@@ -601,11 +642,13 @@ function totals(){
   let n=0, nPre=0;
   cart.forEach((q,code)=>{ n+=q; if(isSold(code)) nPre+=q; });
   const nStock = n - nPre;
-  const sub = nStock * BRAND.price;
-  const pre = nPre  * BRAND.price;
+  const unit = unitPrice(n);
+  const sub = nStock * unit;
+  const pre = nPre  * unit;
   const fee = Number(BRAND.delivery) || 0;
   const del = nStock === 0 ? 0 : fee;      // nothing ships yet on a pre-order-only basket
-  return {n, nStock, nPre, sub, pre, del, v: sub + del};
+  const saved = n * (BRAND.price - unit);
+  return {n, nStock, nPre, unit, sub, pre, del, saved, v: sub + del};
 }
 let currentRef = null;
 // Reference alphabet with no B/8, I/1, O/0, S/5 or Z/2, so a reference read over the
@@ -625,7 +668,7 @@ function ref(){
   return currentRef;
 }
 function sync(){
-  const {n,nStock,nPre,sub,pre,del,v} = totals();
+  const {n,nStock,nPre,unit,sub,pre,del,saved,v} = totals();
   const lines = $("#panLines"); lines.innerHTML = "";
   cart.forEach((q,code)=>{
     const it = byCode.get(code);
@@ -634,7 +677,7 @@ function sync(){
       '<span class="q">'+q+'×</span>'+
       '<span class="x"><b>'+esc(it.n)+'</b><i>'+esc(it.c)+
         (isSold(code)?' <span class="po">Pre-order</span>':'')+'</i></span>'+
-      '<span class="v">'+zar(q*BRAND.price)+'</span>'+
+      '<span class="v">'+zar(q*unit)+'</span>'+
       '<button class="rm" aria-label="Remove '+esc(it.n)+'">&times;</button>';
     ln.querySelector(".rm").onclick = ()=> setQty(code,0);
     lines.appendChild(ln);
@@ -642,6 +685,40 @@ function sync(){
   $("#panNone").hidden  = n>0;
   $("#panCount").textContent = n + (n===1?" plate":" plates")
     + (nPre ? " · " + nPre + " pre-order" : "");
+  // Tier row: show the rate actually being charged, and what it saves.
+  $("#panTierRow").hidden    = n === 0;
+  $("#panTierK").textContent = "Price each" + (n ? " (" + n + " plate" + (n===1?"":"s") + ")" : "");
+  $("#panTier").textContent  = n ? zar(unit) + (saved ? "  · was " + zar(BRAND.price) : "") : "—";
+
+  // Nudge: name the next tier and exactly how many more plates reach it.
+  const nt = nextTier(n), note = $("#panTierNote");
+  if(n === 0){
+    note.hidden = true;
+  } else if(nt){
+    const need = nt.min - n;
+    note.hidden = false;
+    note.className = "tiernote next";
+    note.textContent = "Add " + need + " more plate" + (need===1?"":"s")
+      + " and every plate drops to " + zar(nt.price) + " each"
+      + (saved ? "" : ", saving " + zar((BRAND.price - nt.price) * nt.min) + " on " + nt.min + " plates")
+      + ".";
+  } else {
+    note.hidden = false;
+    note.className = "tiernote";
+    note.textContent = "Best price reached — " + zar(unit) + " a plate.";
+  }
+  if(saved && !nt){
+    note.textContent += " You are saving " + zar(saved) + " on this order.";
+  } else if(saved && nt){
+    note.textContent = "You are saving " + zar(saved) + " at " + zar(unit) + " a plate. " + note.textContent;
+  }
+
+  // Every visible card shows the rate actually being charged, so nothing advertises
+  // R99 while the basket is being billed at R79.
+  document.querySelectorAll("#grid .pr").forEach(el => { el.textContent = zar(unit); });
+  const cc = $("#catCount");
+  if(cc) cc.textContent = cc.textContent.replace(/· R[\d\s,]+ each$/, "· " + zar(unit) + " each");
+
   $("#panSub").textContent   = nStock ? zar(sub) : "—";
   $("#panDel").textContent   = nStock ? zar(del) : "—";
   $("#panPreRow").hidden     = nPre === 0;
@@ -668,7 +745,7 @@ function sync(){
 
 /* ---------- order text ---------- */
 function orderText(){
-  const {n,nStock,nPre,sub,pre,del,v} = totals();
+  const {n,nStock,nPre,unit,sub,pre,del,saved,v} = totals();
   const name = $("#cName").value.trim(), tel = $("#cTel").value.trim(), note = $("#cNote").value.trim();
   let t = BRAND.name + " — New Order\nRef: " + ref() + "\n";
   if(name) t += "Name: " + name + "\n";
@@ -676,14 +753,16 @@ function orderText(){
   const inStock = [], preOrd = [];
   cart.forEach((q,code)=>{
     const it = byCode.get(code);
-    (isSold(code) ? preOrd : inStock).push(q + " x " + code + " — " + it.n + " — " + zar(q*BRAND.price));
+    (isSold(code) ? preOrd : inStock).push(q + " x " + code + " — " + it.n + " — " + zar(q*unit));
   });
   if(inStock.length) t += "IN STOCK\n" + inStock.join("\n") + "\n";
   if(preOrd.length)  t += (inStock.length?"\n":"") + "PRE-ORDER (not charged yet)\n" + preOrd.join("\n") + "\n";
   t += "\n";
+  if(saved) t += "Volume price: " + zar(unit) + " a plate on " + n + " plates"
+              + " (saving " + zar(saved) + ")\n";
   if(nStock){
     t += nStock + (nStock===1?" plate":" plates") + " in stock\n";
-    t += "Plates: " + zar(sub) + "\n";
+    t += "Plates: " + zar(sub) + " (" + nStock + " x " + zar(unit) + ")\n";
     if(del) t += "Delivery: " + zar(del) + "\n";
     t += "TO PAY NOW: " + zar(v) + "\n";
   } else {
